@@ -17,6 +17,7 @@ const settings = ref<GameSettings>({
 });
 
 const grid = ref<Grid>(createEmptyGrid(settings.value.gridSize));
+const cycleCount = ref(0);
 const isRunning = ref(false);
 let intervalId: ReturnType<typeof setInterval> | null = null;
 
@@ -44,6 +45,7 @@ const toggleCell = (row: number, col: number) => {
 };
 
 const calculateNextGeneration = () => {
+    cycleCount.value++;
     const newGrid = grid.value.map((row) => row.map((cell) => ({ ...cell })));
 
     for (let i = 0; i < settings.value.gridSize; i++) {
@@ -142,6 +144,7 @@ const updateSettings = (newSettings: GameSettings) => {
 
 const resetGrid = () => {
     grid.value = createEmptyGrid(settings.value.gridSize);
+    cycleCount.value = 0;
     if (isRunning.value) {
         toggleSimulation();
     }
@@ -169,6 +172,7 @@ onUnmounted(() => {
     <div class="container mx-auto p-4 h-screen overflow-hidden">
         <div class="flex flex-col items-center h-full gap-4">
             <h1 class="text-3xl font-bold">Game of Life</h1>
+            <h3 class="text-2xl font-bold">Cycles : {{ cycleCount }}</h3>
 
             <GameControls
                 :is-running="isRunning"
