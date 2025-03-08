@@ -46,7 +46,7 @@ const updateSettings = (key: keyof GameSettings, value: any) => {
             </label>
             <Slider
                 :model-value="[settings.gridSize]"
-                @update:model-value="(v) => updateSettings('gridSize', v[0])"
+                @update:model-value="(v:any) => updateSettings('gridSize', v[0])"
                 :min="10"
                 :max="50"
                 :step="1"
@@ -59,7 +59,7 @@ const updateSettings = (key: keyof GameSettings, value: any) => {
             </label>
             <Slider
                 :model-value="[settings.updateSpeed]"
-                @update:model-value="(v) => updateSettings('updateSpeed', v[0])"
+                @update:model-value="(v:any) => updateSettings('updateSpeed', v[0])"
                 :min="100"
                 :max="1000"
                 :step="100"
@@ -74,7 +74,7 @@ const updateSettings = (key: keyof GameSettings, value: any) => {
                     :model-value="settings.neighborThresholds.surviveMin"
                     @update:model-value="(v) => updateSettings('neighborThresholds', {
                         ...settings.neighborThresholds,
-                        surviveMin: parseInt(v)
+                        surviveMin: parseInt(v as string)
                     })"
                     min="0"
                     max="8"
@@ -87,7 +87,7 @@ const updateSettings = (key: keyof GameSettings, value: any) => {
                     :model-value="settings.neighborThresholds.surviveMax"
                     @update:model-value="(v) => updateSettings('neighborThresholds', {
                         ...settings.neighborThresholds,
-                        surviveMax: parseInt(v)
+                        surviveMax: parseInt(v as string)
                     })"
                     min="0"
                     max="8"
@@ -100,7 +100,7 @@ const updateSettings = (key: keyof GameSettings, value: any) => {
                     :model-value="settings.neighborThresholds.birthCount"
                     @update:model-value="(v) => updateSettings('neighborThresholds', {
                         ...settings.neighborThresholds,
-                        birthCount: parseInt(v)
+                        birthCount: parseInt(v as string)
                     })"
                     min="0"
                     max="8"
