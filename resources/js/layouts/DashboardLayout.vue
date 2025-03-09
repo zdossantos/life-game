@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import DashboardSidebarLayout from '@/layouts/dashboard/DashboardSidebarLayout.vue';
 import type { BreadcrumbItemType } from '@/types';
 
 interface Props {
@@ -10,7 +11,8 @@ withDefaults(defineProps<Props>(), {
 });
 </script>
 
-<template class="flex flex-col h-screen w-screen">
-
+<template>
+    <DashboardSidebarLayout :breadcrumbs="breadcrumbs">
         <slot />
+    </DashboardSidebarLayout>
 </template>
