@@ -3,8 +3,12 @@ import GameControls from '@/components/GameControls.vue';
 import GameGrid from '@/components/GameGrid.vue';
 import type { GameSettings, Grid } from '@/types/game-of-life';
 import { Head } from '@inertiajs/vue3';
-import { onUnmounted, ref, watch } from 'vue';
+import { onMounted, onUnmounted, ref, watch } from 'vue';
 import AppLayout from '@/layouts/AppLayout.vue';
+
+const props = defineProps<{
+    id?: string
+}>();
 
 const settings = ref<GameSettings>({
     gridSize: 20,
@@ -166,6 +170,12 @@ onUnmounted(() => {
         clearInterval(intervalId);
     }
 });
+
+onMounted(() => {
+    if(props.id) {
+        console.log('id : ', props.id);
+    }
+});
 </script>
 
 <template>
@@ -180,6 +190,7 @@ onUnmounted(() => {
                 :is-running="isRunning"
                 :settings="settings"
                 :grid="grid"
+                :id="id"
                 @toggle-simulation="toggleSimulation"
                 @update-settings="updateSettings"
                 @reset="resetGrid"

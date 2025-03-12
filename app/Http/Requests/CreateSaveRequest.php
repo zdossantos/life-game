@@ -27,6 +27,7 @@ class CreateSaveRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'id' => ['nullable', 'uuid'],
             'grid' => ['required', 'array'],
             'grid_size' => ['required', 'integer', 'min:10', 'max:50'],
             'update_speed' => ['required', 'integer', 'min:100', 'max:1000'],

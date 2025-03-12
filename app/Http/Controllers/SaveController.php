@@ -18,18 +18,24 @@ class SaveController extends Controller
     {
         $validated = $request->validated();
         $user = auth()->user();
-        if(!$user) {
+        if (!$user) {
             return Inertia::render('Login');
         }
-        $save = new Save();
-        $save->user_id = $user->id;
-        $save->grid = $validated['grid'];
-        $save->grid_size = $validated['grid_size'];
-        $save->update_speed = $validated['update_speed'];
-        $save->neighbor_thresholds = $validated['neighbor_thresholds'];
-        $save->selected_color = $validated['selected_color'];
+        $save = Save::updateOrCreate(
+            ['id' => $request->id],
+            [
+                'user_id' => $user->id,
+                'grid' => $validated['grid'],
+                'grid_size' => $validated['grid_size'],
+                'update_speed' => $validated['update_speed'],
+                'neighbor_thresholds' => $validated['neighbor_thresholds'],
+                'selected_color' => $validated['selected_color']
+            ]
+        );
         $save->save();
-        return Inertia::render('Home');
+        return Inertia::render('Home', [
+            'id' => $save->id
+        ]);
     }
 
     public function show(Save $save)

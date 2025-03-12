@@ -3,10 +3,11 @@ import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 import { Input } from '@/components/ui/input';
 import type { GameSettings, Grid } from '@/types/game-of-life';
-import { router } from '@inertiajs/vue3';
-import { watch } from 'vue';
-
+import { router, usePage } from '@inertiajs/vue3';
+import { computed, watch } from 'vue';
+import { toast } from 'vue-sonner'
 const props = defineProps<{
+    id?: string;
     grid: Grid;
     isRunning: boolean;
     settings: GameSettings;
@@ -35,15 +36,16 @@ const updateSettings = (key: keyof GameSettings, value: any) => {
 
 const saveSettings = () => {
     router.post(route('save.store'), {
+        id: props.id,
         grid:  props.grid,
         grid_size: props.settings.gridSize,
         update_speed: props.settings.updateSpeed,
         neighbor_thresholds: props.settings.neighborThresholds,
         selected_color: props.settings.selectedColor,
     }, {
-        onSuccess: () => {
-            // Gérer le succès
-            console.log('Sauvegarde réussie');
+        onSuccess: (data) => {
+            console.log(data)
+            toast.success('Sauvegarde réussie');
         },
         onError: (errors) => {
             // Gérer les erreurs
@@ -51,6 +53,8 @@ const saveSettings = () => {
         }
     });
 };
+const page = usePage();
+const auth = computed(() => page.props.auth);
 </script>
 
 <template>
@@ -60,7 +64,7 @@ const saveSettings = () => {
                 {{ isRunning ? 'Arrêter' : 'Démarrer' }}
             </Button>
             <Button @click="$emit('reset')" variant="outline"> Réinitialiser </Button>
-            <Button @click="saveSettings" variant="outline"> Sauvegarder </Button>
+            <Button @click="saveSettings" variant="outline" v-if="auth.user"> Sauvegarder </Button>
 
             <Input
                 type="color"
