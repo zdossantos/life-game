@@ -7,9 +7,10 @@ import { getInitials } from '@/composables/useInitials';
 import { Link, usePage } from '@inertiajs/vue3';
 import { LayoutDashboard,LogIn } from 'lucide-vue-next';
 import { computed } from 'vue';
+import { Auth } from '@/types';
 
 const page = usePage();
-const auth = computed(() => page.props.auth);
+const auth = computed(() => page.props.auth as Auth);
 </script>
 
 <template>
@@ -22,7 +23,7 @@ const auth = computed(() => page.props.auth);
                     <Avatar class="size-8 overflow-hidden rounded-full">
                         <AvatarImage v-if="auth.user.avatar" :src="auth.user.avatar" :alt="auth.user.name" />
                         <AvatarFallback class="rounded-lg bg-neutral-200 font-semibold text-black dark:bg-neutral-700 dark:text-white">
-                            {{ getInitials(auth.user?.name) }}
+                            {{ getInitials(auth.user.name) }}
                         </AvatarFallback>
                     </Avatar>
                 </Button>

@@ -10,7 +10,6 @@ class Save extends Model
 {
     use HasUuids;
     protected $table = 'saves';
-
     protected $fillable = [
         'id',
         'user_id',

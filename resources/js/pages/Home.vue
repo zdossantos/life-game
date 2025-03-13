@@ -3,14 +3,18 @@ import GameControls from '@/components/GameControls.vue';
 import GameGrid from '@/components/GameGrid.vue';
 import type { GameSettings, Grid } from '@/types/game-of-life';
 import { Head } from '@inertiajs/vue3';
-import { onMounted, onUnmounted, ref, watch } from 'vue';
+import { onUnmounted, ref, watch } from 'vue';
 import AppLayout from '@/layouts/AppLayout.vue';
 
 const props = defineProps<{
-    id?: string
+    id?: string,
+    settings?: GameSettings,
+    grid?: Grid,
+    cycleCount?: number
 }>();
 
 const settings = ref<GameSettings>({
+    ...props.settings,
     gridSize: 20,
     updateSpeed: 500,
     selectedColor: document.documentElement.classList.contains('dark') ? '#FFFFFF' : '#000000',
@@ -21,8 +25,8 @@ const settings = ref<GameSettings>({
     },
 });
 
-const grid = ref<Grid>(createEmptyGrid(settings.value.gridSize));
-const cycleCount = ref(0);
+const grid = ref<Grid>(props.grid || createEmptyGrid(settings.value.gridSize));
+const cycleCount = ref(props.cycleCount || 0);
 const isRunning = ref(false);
 let intervalId: ReturnType<typeof setInterval> | null = null;
 
@@ -170,12 +174,6 @@ onUnmounted(() => {
         clearInterval(intervalId);
     }
 });
-
-onMounted(() => {
-    if(props.id) {
-        console.log('id : ', props.id);
-    }
-});
 </script>
 
 <template>
@@ -190,7 +188,7 @@ onMounted(() => {
                 :is-running="isRunning"
                 :settings="settings"
                 :grid="grid"
-                :id="id"
+                :id="props.id"
                 @toggle-simulation="toggleSimulation"
                 @update-settings="updateSettings"
                 @reset="resetGrid"

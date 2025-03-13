@@ -22,7 +22,10 @@ class SaveController extends Controller
             return Inertia::render('Login');
         }
         $save = Save::updateOrCreate(
-            ['id' => $request->id],
+            [
+                'id' => $request->id,
+                'user_id' => $user->id
+            ],
             [
                 'user_id' => $user->id,
                 'grid' => $validated['grid'],
@@ -38,9 +41,18 @@ class SaveController extends Controller
         ]);
     }
 
-    public function show(Save $save)
+    public static function show($id = null)
     {
-        //
+        if(!$id) {
+            return Inertia::render('Home');
+        }
+        $save = Save::find($id);
+        return Inertia::render('Home', [
+            'id' => $save->id,
+            'settings' => $save->settings,
+            'grid' => $save->grid,
+            'cycleCount' => $save->cycleCount
+        ]);
     }
 
     public function update(Request $request, Save $save)
