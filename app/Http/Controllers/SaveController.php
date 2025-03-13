@@ -6,12 +6,15 @@ use App\Http\Requests\CreateSaveRequest;
 use App\Models\Save;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Inertia\Response;
 
 class SaveController extends Controller
 {
-    public function create()
+    public static function userSaves(): Response
     {
-        //
+        return Inertia::render('Dashboard',[
+            'saves' => Save::where('user_id', auth()->user()->id)->get()
+        ]);
     }
 
     public function store(CreateSaveRequest $request)

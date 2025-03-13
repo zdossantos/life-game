@@ -1,8 +1,12 @@
 <script setup lang="ts">
 import { type BreadcrumbItem } from '@/types';
-import { Head } from '@inertiajs/vue3';
+import { Head, Link } from '@inertiajs/vue3';
 import PlaceholderPattern from '../components/PlaceholderPattern.vue';
 import DashboardLayout from '@/layouts/DashboardLayout.vue';
+
+const props = defineProps<{
+    saves?: any;
+}>();
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -28,8 +32,16 @@ const breadcrumbs: BreadcrumbItem[] = [
                     <PlaceholderPattern />
                 </div>
             </div>
-            <div class="relative min-h-[100vh] flex-1 rounded-xl border border-sidebar-border/70 dark:border-sidebar-border md:min-h-min">
-                <PlaceholderPattern />
+            <div class="relative min-h-[100vh] flex-1 rounded-xl border border-sidebar-border/70 dark:border-sidebar-border md:min-h-min flex flex-col gap-4">
+                <Link
+                    v-for="save in props.saves"
+                    :key="save.id"
+                    :href="route('home', save.id)"
+                    :preserve-scroll="false"
+                    as="button"
+                >
+                    {{ save.id }}
+                </Link>
             </div>
         </div>
     </DashboardLayout>
