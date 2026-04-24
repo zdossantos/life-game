@@ -19,7 +19,6 @@ return new class extends Migration
             $table->integer('update_speed');
             $table->json('neighbor_thresholds');
             $table->string('selected_color');
-            $table->integer('cycle_count')->default(0);
             $table->timestamps();
         });
     }
