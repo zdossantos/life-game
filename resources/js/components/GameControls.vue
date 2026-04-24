@@ -11,6 +11,7 @@ const props = defineProps<{
     grid: Grid;
     isRunning: boolean;
     settings: GameSettings;
+    cycleCount: number;
 }>();
 
 const emit = defineEmits<{
@@ -42,6 +43,7 @@ const saveSettings = () => {
         update_speed: props.settings.updateSpeed,
         neighbor_thresholds: props.settings.neighborThresholds,
         selected_color: props.settings.selectedColor,
+        cycle_count: props.cycleCount,
     }, {
         onSuccess: (data) => {
             console.log(data)

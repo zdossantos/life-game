@@ -12,8 +12,8 @@ class SaveController extends Controller
 {
     public static function userSaves(): Response
     {
-        return Inertia::render('Dashboard',[
-            'saves' => Save::where('user_id', auth()->user()->id)->get()
+        return Inertia::render('Dashboard', [
+            'saves' => Save::where('user_id', auth()->user()->id)->get(),
         ]);
     }
 
@@ -21,13 +21,13 @@ class SaveController extends Controller
     {
         $validated = $request->validated();
         $user = auth()->user();
-        if (!$user) {
+        if (! $user) {
             return Inertia::render('Login');
         }
         $save = Save::updateOrCreate(
             [
                 'id' => $request->id,
-                'user_id' => $user->id
+                'user_id' => $user->id,
             ],
             [
                 'user_id' => $user->id,
@@ -35,26 +35,29 @@ class SaveController extends Controller
                 'grid_size' => $validated['grid_size'],
                 'update_speed' => $validated['update_speed'],
                 'neighbor_thresholds' => $validated['neighbor_thresholds'],
-                'selected_color' => $validated['selected_color']
+                'selected_color' => $validated['selected_color'],
+                'cycle_count' => $validated['cycle_count'],
             ]
         );
         $save->save();
+
         return Inertia::render('Home', [
-            'id' => $save->id
+            'id' => $save->id,
         ]);
     }
 
     public static function show($id = null)
     {
-        if(!$id) {
+        if (! $id) {
             return Inertia::render('Home');
         }
         $save = Save::find($id);
+
         return Inertia::render('Home', [
             'id' => $save->id,
             'settings' => $save->settings,
             'grid' => $save->grid,
-            'cycleCount' => $save->cycleCount
+            'cycleCount' => $save->cycle_count,
         ]);
     }
 

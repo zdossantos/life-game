@@ -2,12 +2,8 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Auth\Events\Lockout;
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\RateLimiter;
-use Illuminate\Support\Str;
-use Illuminate\Validation\ValidationException;
 
 class CreateSaveRequest extends FormRequest
 {
@@ -22,7 +18,7 @@ class CreateSaveRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     * @return array<string, ValidationRule|array<mixed>|string>
      */
     public function rules(): array
     {
@@ -33,6 +29,7 @@ class CreateSaveRequest extends FormRequest
             'update_speed' => ['required', 'integer', 'min:100', 'max:1000'],
             'neighbor_thresholds' => ['required', 'array'],
             'selected_color' => ['required', 'string'],
+            'cycle_count' => ['required', 'integer', 'min:0'],
         ];
     }
 
@@ -48,6 +45,7 @@ class CreateSaveRequest extends FormRequest
             'update_speed.max' => 'La vitesse doit être inférieure à 1000.',
             'neighbor_thresholds.required' => 'Le champ "Neighbor Thresholds" est obligatoire.',
             'selected_color.required' => 'Le champ "Couleur de sélection" est obligatoire.',
+            'cycle_count.required' => 'Le champ "Nombre de cycles" est obligatoire.',
         ];
     }
 }
