@@ -35,9 +35,13 @@ class SaveController extends Controller
         ];
 
         if (! empty($validated['id'])) {
-            $save = Save::where('id', $validated['id'])->where('user_id', $user->id)->first();
-            if ($save) {
-                $save->fill($attributes)->save();
+            $existing = Save::find($validated['id']);
+            if ($existing && $existing->user_id !== $user->id) {
+                abort(403);
+            }
+            if ($existing) {
+                $existing->fill($attributes)->save();
+                $save = $existing;
             } else {
                 $save = Save::create($attributes);
             }
