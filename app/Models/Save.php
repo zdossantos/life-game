@@ -9,7 +9,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Save extends Model
 {
     use HasUuids;
+
     protected $table = 'saves';
+
     protected $fillable = [
         'id',
         'user_id',
@@ -17,12 +19,24 @@ class Save extends Model
         'grid_size',
         'update_speed',
         'neighbor_thresholds',
-        'selected_color'
+        'selected_color',
+        'cycle_count',
     ];
+
     protected $casts = [
         'grid' => 'array',
         'neighbor_thresholds' => 'array',
     ];
+
+    public function getSettingsAttribute(): array
+    {
+        return [
+            'gridSize' => $this->grid_size,
+            'updateSpeed' => $this->update_speed,
+            'selectedColor' => $this->selected_color,
+            'neighborThresholds' => $this->neighbor_thresholds,
+        ];
+    }
 
     public function user(): BelongsTo
     {

@@ -13,17 +13,18 @@ const props = defineProps<{
     cycleCount?: number
 }>();
 
-const settings = ref<GameSettings>({
-    ...props.settings,
-    gridSize: 20,
-    updateSpeed: 500,
-    selectedColor: document.documentElement.classList.contains('dark') ? '#FFFFFF' : '#000000',
-    neighborThresholds: {
-        surviveMin: 2,
-        surviveMax: 3,
-        birthCount: 3,
+const settings = ref<GameSettings>(
+    props.settings || {
+        gridSize: 20,
+        updateSpeed: 500,
+        selectedColor: document.documentElement.classList.contains('dark') ? '#FFFFFF' : '#000000',
+        neighborThresholds: {
+            surviveMin: 2,
+            surviveMax: 3,
+            birthCount: 3,
+        },
     },
-});
+);
 
 const grid = ref<Grid>(props.grid || createEmptyGrid(settings.value.gridSize));
 const cycleCount = ref(props.cycleCount || 0);
@@ -189,6 +190,7 @@ onUnmounted(() => {
                 :settings="settings"
                 :grid="grid"
                 :id="props.id"
+                :cycle-count="cycleCount"
                 @toggle-simulation="toggleSimulation"
                 @update-settings="updateSettings"
                 @reset="resetGrid"

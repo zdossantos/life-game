@@ -32,15 +32,21 @@ const breadcrumbs: BreadcrumbItem[] = [
                     <PlaceholderPattern />
                 </div>
             </div>
-            <div class="relative min-h-[100vh] flex-1 rounded-xl border border-sidebar-border/70 dark:border-sidebar-border md:min-h-min flex flex-col gap-4">
+            <div class="relative min-h-[100vh] flex-1 rounded-xl border border-sidebar-border/70 dark:border-sidebar-border md:min-h-min flex flex-col gap-4 p-4">
+                <p v-if="!props.saves || props.saves.length === 0" class="text-muted-foreground text-sm">Aucune sauvegarde trouvée.</p>
                 <Link
                     v-for="save in props.saves"
                     :key="save.id"
                     :href="route('home', save.id)"
                     :preserve-scroll="false"
                     as="button"
+                    class="flex items-center justify-between rounded-lg border border-sidebar-border/70 dark:border-sidebar-border p-3 hover:bg-accent transition-colors text-left"
                 >
-                    {{ save.id }}
+                    <div class="flex flex-col gap-1">
+                        <span class="text-sm font-medium">Grille {{ save.grid_size }}×{{ save.grid_size }}</span>
+                        <span class="text-xs text-muted-foreground">{{ save.cycle_count }} cycle{{ save.cycle_count !== 1 ? 's' : '' }}</span>
+                    </div>
+                    <span class="text-xs text-muted-foreground">{{ new Date(save.created_at).toLocaleDateString() }}</span>
                 </Link>
             </div>
         </div>
