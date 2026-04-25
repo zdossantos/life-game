@@ -1,0 +1,46 @@
+name: life-game
+
+# ─── Local development ────────────────────────────────────────────────────────
+# Usage:
+#   cp .env.example .env      # first time only
+#   docker compose up --build
+#
+# App:  http://localhost:8000
+# Vite: http://localhost:5173  (HMR active)
+# ─────────────────────────────────────────────────────────────────────────────
+
+services:
+  # PHP / Laravel dev server
+  app:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.dev
+    ports:
+      - "${APP_PORT:-8000}:8000"
+    volumes:
+      - .:/var/www/html
+      # Named volumes keep vendor/ and node_modules/ inside the container
+      # so host OS / architecture differences don't cause issues.
+      - vendor:/var/www/html/vendor
+    env_file: .env
+    environment:
+      APP_ENV: local
+      APP_DEBUG: "true"
+      DB_CONNECTION: sqlite
+      DB_DATABASE: /var/www/html/database/database.sqlite
+
+  # Vite dev server (HMR)
+  vite:
+    image: node:22-alpine
+    working_dir: /var/www/html
+    # --host makes Vite listen on 0.0.0.0 so it is reachable from the host
+    command: sh -c "npm install && npm run dev -- --host"
+    ports:
+      - "5173:5173"
+    volumes:
+      - .:/var/www/html
+      - node_modules:/var/www/html/node_modules
+
+volumes:
+  vendor:
+  node_modules:
