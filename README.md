@@ -33,7 +33,61 @@ Une implémentation interactive du [Jeu de la Vie de Conway](https://fr.wikipedi
 
 ---
 
-## 🚀 Installation
+## 🐳 Docker (recommandé)
+
+### Développement local
+
+Prérequis : [Docker Desktop](https://www.docker.com/products/docker-desktop/) (ou Docker + Docker Compose)
+
+```bash
+# 1. Cloner le dépôt
+git clone https://github.com/zdossantos/life-game.git
+cd life-game
+
+# 2. Copier le fichier d'environnement
+cp .env.example .env
+
+# 3. Démarrer les conteneurs (première fois : build automatique)
+docker compose up --build
+```
+
+- **App Laravel** → [http://localhost:8000](http://localhost:8000)
+- **Vite HMR** → [http://localhost:5173](http://localhost:5173)
+
+> Les dépendances (`vendor/`, `node_modules/`) sont installées automatiquement au premier démarrage.
+> Les modifications de fichiers PHP et Vue sont prises en compte immédiatement.
+
+```bash
+# Arrêter les conteneurs
+docker compose down
+
+# Lancer les tests
+docker compose exec app php artisan test
+
+# Accéder au shell PHP
+docker compose exec app sh
+```
+
+### Déploiement sur VPS
+
+```bash
+# 1. Copier et éditer le fichier d'environnement
+cp .env.example .env
+# Renseigner APP_KEY, APP_URL, APP_ENV=production, APP_DEBUG=false
+
+# 2. Générer la clé applicative (si APP_KEY est vide)
+docker compose -f docker-compose.prod.yml run --rm app php artisan key:generate --show
+# Coller la valeur obtenue dans APP_KEY dans le .env
+
+# 3. Construire et démarrer en production
+docker compose -f docker-compose.prod.yml up -d --build
+```
+
+L'application tourne sur le port **80**. Pour HTTPS, placez un reverse-proxy (Traefik, Nginx, Caddy) devant le conteneur.
+
+---
+
+## 🚀 Installation (sans Docker)
 
 ### Prérequis
 
