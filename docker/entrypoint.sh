@@ -2,7 +2,7 @@
 set -e
 
 # Ensure writable directories exist with correct permissions
-mkdir -p storage/framework/{sessions,views,cache} storage/logs bootstrap/cache
+mkdir -p storage/framework/sessions storage/framework/views storage/framework/cache storage/logs bootstrap/cache
 chown -R www-data:www-data storage bootstrap/cache
 
 # Create SQLite database file if using SQLite
