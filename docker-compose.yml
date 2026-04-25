@@ -1,0 +1,52 @@
+# Local development environment
+#
+# Usage:
+#   docker compose up          — first run: installs deps, sets up DB, starts all services
+#   docker compose up          — subsequent runs: starts immediately
+#   docker compose exec app sh — open a shell in the PHP container
+#
+# The application is available at:
+#   http://localhost:8000  (Laravel)
+#   http://localhost:5173  (Vite HMR — used automatically by the browser)
+
+services:
+  # ── PHP / Laravel ──────────────────────────────────────────────────────────
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/var/www/html
+      # Isolate vendor inside a named volume so host installs don't conflict
+      - vendor-data:/var/www/html/vendor
+    command: php artisan serve --host=0.0.0.0 --port=8000
+    healthcheck:
+      test: ["CMD-SHELL", "test -f /var/www/html/vendor/autoload.php && test -f /var/www/html/.env"]
+      interval: 5s
+      timeout: 5s
+      retries: 24
+      start_period: 10s
+
+  # ── Vite dev server (HMR) ──────────────────────────────────────────────────
+  vite:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - "5173:5173"
+    volumes:
+      - .:/var/www/html
+      # Isolate node_modules inside a named volume
+      - node-data:/var/www/html/node_modules
+    # Override entrypoint: no PHP setup needed here
+    entrypoint: []
+    command: sh -c "cd /var/www/html && pnpm install && pnpm run dev -- --host 0.0.0.0"
+    depends_on:
+      app:
+        condition: service_healthy
+
+volumes:
+  vendor-data:
+  node-data:

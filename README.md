@@ -35,13 +35,45 @@ Une implémentation interactive du [Jeu de la Vie de Conway](https://fr.wikipedi
 
 ## 🚀 Installation
 
-### Prérequis
+### Option A — Docker (recommandé)
 
-- PHP ≥ 8.2 avec les extensions requises par Laravel
-- Composer
-- Node.js ≥ 18 et pnpm (ou npm)
+> **Prérequis :** [Docker](https://docs.docker.com/get-docker/) ≥ 24 avec le plugin Compose V2.
 
-### Étapes
+```bash
+# 1. Cloner le dépôt
+git clone https://github.com/zdossantos/life-game.git
+cd life-game
+
+# 2. Démarrer l'environnement de développement
+docker compose up
+```
+
+Au premier démarrage, Docker :
+- installe les dépendances PHP et JavaScript
+- crée le fichier `.env` et génère la clé d'application
+- crée la base SQLite et exécute les migrations
+
+L'application est ensuite disponible sur :
+- **[http://localhost:8000](http://localhost:8000)** — Laravel
+- **[http://localhost:5173](http://localhost:5173)** — Vite HMR (utilisé automatiquement)
+
+#### Commandes Docker utiles
+
+| Commande | Description |
+|---|---|
+| `docker compose up` | Démarre les services (Ctrl+C pour arrêter) |
+| `docker compose up -d` | Démarre en arrière-plan |
+| `docker compose down` | Arrête et supprime les conteneurs |
+| `docker compose exec app sh` | Ouvre un shell dans le conteneur PHP |
+| `docker compose exec app php artisan migrate` | Exécute les migrations |
+| `docker compose exec app php artisan test` | Lance les tests |
+| `docker compose logs -f` | Affiche les logs en continu |
+
+---
+
+### Option B — Installation locale
+
+**Prérequis :** PHP ≥ 8.2, Composer, Node.js ≥ 18, pnpm
 
 ```bash
 # 1. Cloner le dépôt
@@ -67,6 +99,37 @@ composer run dev
 ```
 
 L'application sera disponible sur [http://localhost:8000](http://localhost:8000).
+
+---
+
+## 🖥️ Déploiement sur VPS
+
+```bash
+# 1. Cloner le dépôt sur le serveur
+git clone https://github.com/zdossantos/life-game.git
+cd life-game
+
+# 2. Créer le fichier .env de production
+cp .env.example .env
+# Éditer .env : APP_ENV=production, APP_DEBUG=false, APP_URL=https://votre-domaine.com
+# Générer APP_KEY :
+docker compose -f docker-compose.prod.yml run --rm app php artisan key:generate --show
+# Copier la clé obtenue dans .env : APP_KEY=base64:...
+
+# 3. Construire et démarrer
+docker compose -f docker-compose.prod.yml up -d --build
+```
+
+L'application écoute sur le port **80**. Placez Nginx, Caddy ou Traefik en reverse proxy devant elle pour gérer HTTPS.
+
+#### Mise à jour
+
+```bash
+git pull
+docker compose -f docker-compose.prod.yml up -d --build
+```
+
+Les données (base SQLite, fichiers uploadés) sont persistées dans des volumes Docker nommés et ne sont pas affectées par les mises à jour.
 
 ---
 

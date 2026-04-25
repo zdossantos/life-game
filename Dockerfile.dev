@@ -1,0 +1,39 @@
+# Development image — PHP 8.2 CLI + Composer + Node 20 + pnpm
+FROM php:8.2-cli-alpine
+
+# System dependencies required by Laravel extensions
+RUN apk add --no-cache \
+        git \
+        curl \
+        sqlite \
+        sqlite-dev \
+        libzip-dev \
+        oniguruma-dev \
+        libxml2-dev \
+    && docker-php-ext-install \
+        pdo \
+        pdo_sqlite \
+        mbstring \
+        zip \
+        xml \
+        dom \
+        tokenizer \
+        bcmath \
+        fileinfo
+
+# Composer
+COPY --from=composer:2.8 /usr/bin/composer /usr/bin/composer
+
+# Node.js + pnpm
+RUN apk add --no-cache nodejs npm \
+    && npm install -g pnpm
+
+WORKDIR /var/www/html
+
+COPY docker/dev-entrypoint.sh /usr/local/bin/dev-entrypoint.sh
+RUN chmod +x /usr/local/bin/dev-entrypoint.sh
+
+ENTRYPOINT ["dev-entrypoint.sh"]
+CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
+
+EXPOSE 8000 5173
