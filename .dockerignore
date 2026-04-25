@@ -1,0 +1,39 @@
+# Git
+.git
+.gitignore
+.gitattributes
+.github
+
+# Dependencies (rebuilt inside the image)
+node_modules/
+vendor/
+
+# Built assets (rebuilt inside the image)
+public/build/
+public/hot
+
+# Environment files (injected at runtime)
+.env
+.env.*
+!.env.example
+
+# Logs and caches
+*.log
+storage/logs/
+storage/debugbar/
+bootstrap/cache/
+
+# Dev tooling
+.editorconfig
+.prettierrc
+.prettierignore
+eslint.config.js
+phpunit.xml
+tests/
+
+# IDE files
+.fleet/
+.idea/
+.nova/
+.vscode/
+.zed/
