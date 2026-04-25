@@ -34,7 +34,7 @@ services:
     image: node:22-alpine
     working_dir: /var/www/html
     # --host makes Vite listen on 0.0.0.0 so it is reachable from the host
-    command: sh -c "npm install && npm run dev -- --host"
+    command: sh -c "if [ -z \"$(ls -A /var/www/html/node_modules 2>/dev/null)\" ]; then npm ci; fi && npm run dev -- --host"
     ports:
       - "5173:5173"
     volumes:
