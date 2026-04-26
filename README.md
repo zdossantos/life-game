@@ -87,43 +87,6 @@ L'application tourne sur le port **80**. Pour HTTPS, placez un reverse-proxy (Tr
 
 ---
 
-## 🚀 Installation (sans Docker)
-
-### Prérequis
-
-- PHP ≥ 8.2 avec les extensions requises par Laravel
-- Composer
-- Node.js ≥ 18 et pnpm (ou npm)
-
-### Étapes
-
-```bash
-# 1. Cloner le dépôt
-git clone https://github.com/zdossantos/life-game.git
-cd life-game
-
-# 2. Installer les dépendances PHP
-composer install
-
-# 3. Copier et configurer le fichier d'environnement
-cp .env.example .env
-php artisan key:generate
-
-# 4. Créer la base de données et lancer les migrations
-touch database/database.sqlite
-php artisan migrate
-
-# 5. Installer les dépendances JavaScript
-pnpm install   # ou : npm install
-
-# 6. Lancer le serveur de développement
-composer run dev
-```
-
-L'application sera disponible sur [http://localhost:8000](http://localhost:8000).
-
----
-
 ## 📜 Commandes utiles
 
 | Commande                  | Description                                           |
