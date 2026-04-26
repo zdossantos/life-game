@@ -25,7 +25,7 @@ Une implémentation interactive du [Jeu de la Vie de Conway](https://fr.wikipedi
 
 | Couche      | Technologie                                  |
 |-------------|----------------------------------------------|
-| Backend     | PHP 8.2+, Laravel 12, SQLite                 |
+| Backend     | PHP 8.2+, Laravel 12, Mysql, Passport                 |
 | Frontend    | Vue 3, TypeScript, Vite                      |
 | Bridge      | Inertia.js                                   |
 | UI          | Tailwind CSS, shadcn/ui (Radix Vue / Reka UI)|
