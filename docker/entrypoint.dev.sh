@@ -1,12 +1,6 @@
 #!/bin/sh
 set -e
 
-# Create SQLite database file if it does not exist
-if [ ! -f database/database.sqlite ]; then
-    echo "Creating SQLite database..."
-    touch database/database.sqlite
-fi
-
 # Install PHP dependencies if vendor is not present
 if [ ! -f vendor/autoload.php ]; then
     echo "Installing PHP dependencies..."

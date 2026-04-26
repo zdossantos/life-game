@@ -7,9 +7,26 @@ name: life-game
 #
 # App:  http://localhost:8000
 # Vite: http://localhost:5173  (HMR active)
+# DB:   mysql://root@127.0.0.1:3306/life_game
 # ─────────────────────────────────────────────────────────────────────────────
 
 services:
+  # MySQL database
+  mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_DATABASE: life_game
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "--silent"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
   # PHP / Laravel dev server
   app:
     build:
@@ -26,8 +43,15 @@ services:
     environment:
       APP_ENV: local
       APP_DEBUG: "true"
-      DB_CONNECTION: sqlite
-      DB_DATABASE: /var/www/html/database/database.sqlite
+      DB_CONNECTION: mysql
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_DATABASE: life_game
+      DB_USERNAME: root
+      DB_PASSWORD: ""
+    depends_on:
+      mysql:
+        condition: service_healthy
 
   # Vite dev server (HMR)
   vite:
@@ -44,3 +68,4 @@ services:
 volumes:
   vendor:
   node_modules:
+  mysql_data:
