@@ -8,7 +8,6 @@ use App\Http\Requests\Api\RegisterApiRequest;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class AuthApiController extends Controller
@@ -30,7 +29,7 @@ class AuthApiController extends Controller
             'status' => 'success',
             'message' => 'User registered successfully.',
             'data' => [
-                'user' => $user,
+                'user' => $user->only(['id', 'name', 'email']),
                 'token' => $token,
             ],
         ], 201);
@@ -41,7 +40,9 @@ class AuthApiController extends Controller
      */
     public function login(LoginApiRequest $request): JsonResponse
     {
-        if (! Auth::attempt($request->only('email', 'password'))) {
+        $user = User::where('email', $request->email)->first();
+
+        if (! $user || ! Hash::check($request->password, $user->password)) {
             return response()->json([
                 'status' => 'error',
                 'message' => 'Invalid credentials.',
@@ -49,15 +50,13 @@ class AuthApiController extends Controller
             ], 401);
         }
 
-        /** @var User $user */
-        $user = Auth::user();
         $token = $user->createToken('api-token')->accessToken;
 
         return response()->json([
             'status' => 'success',
             'message' => 'Login successful.',
             'data' => [
-                'user' => $user,
+                'user' => $user->only(['id', 'name', 'email']),
                 'token' => $token,
             ],
         ]);
@@ -86,7 +85,7 @@ class AuthApiController extends Controller
             'status' => 'success',
             'message' => 'User retrieved successfully.',
             'data' => [
-                'user' => $request->user(),
+                'user' => $request->user()->only(['id', 'name', 'email']),
             ],
         ]);
     }
