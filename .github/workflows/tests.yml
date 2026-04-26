@@ -1,14 +1,18 @@
 name: tests
 
+# Branch Protection Rules (configure in GitHub repository settings):
+# - Required status check: "ci" must pass before merging
+# - Disallow merge when workflow is failing
+# - Apply these rules to both "main" and "develop" branches
+
 on:
   push:
     branches:
-      - develop
       - main
   pull_request:
     branches:
-      - develop
       - main
+      - develop
 
 jobs:
   ci:
@@ -22,6 +26,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: 8.4
+          extensions: pdo, pdo_sqlite, mbstring, openssl, tokenizer, xml, ctype, json, bcmath
           tools: composer:v2
           coverage: xdebug
 
@@ -43,11 +48,20 @@ jobs:
       - name: Generate Application Key
         run: php artisan key:generate
 
-      - name: Publish Ziggy Configuration
-        run: php artisan ziggy:generate
+      - name: Generate Passport Keys
+        run: php artisan passport:keys --force
 
       - name: Build Assets
         run: npm run build
 
+      - name: Run Migrations
+        env:
+          DB_CONNECTION: sqlite
+          DB_DATABASE: ":memory:"
+        run: php artisan migrate --force
+
       - name: Tests
-        run: ./vendor/bin/pest
+        env:
+          DB_CONNECTION: sqlite
+          DB_DATABASE: ":memory:"
+        run: ./vendor/bin/pest --coverage
