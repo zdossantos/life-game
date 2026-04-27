@@ -1,13 +1,20 @@
 name: life-game
 
-# ─── Production (VPS) ─────────────────────────────────────────────────────────
-# Usage:
-#   cp .env.example .env
-#   # Edit .env: set APP_KEY, APP_URL, APP_DEBUG=false, APP_ENV=production,
-#   #            DB_PASSWORD, DB_ROOT_PASSWORD
-#   docker compose -f docker-compose.prod.yml up -d --build
+# ─── Production – Coolify v4 ──────────────────────────────────────────────────
 #
-# App: http://<your-vps-ip>  (port 80)
+# POINT D'ENTRÉE HTTP :
+#   Service : app
+#   Port interne : 80
+#   → Configurer ce port dans l'interface Coolify pour que Traefik route
+#     le trafic HTTPS vers ce service.
+#
+# VARIABLES À DÉFINIR DANS COOLIFY (Settings → Environment Variables) :
+#   APP_KEY          – Clé de chiffrement Laravel (php artisan key:generate)
+#   APP_NAME         – Nom affiché de l'application (défaut : "Life Game")
+#   APP_URL          – URL publique complète (ex: https://lifegame.example.com)
+#   DB_PASSWORD      – Mot de passe de l'utilisateur MySQL "laravel"
+#   DB_ROOT_PASSWORD – Mot de passe root MySQL
+#
 # ─────────────────────────────────────────────────────────────────────────────
 
 services:
@@ -32,10 +39,14 @@ services:
       context: .
       dockerfile: Dockerfile
     restart: unless-stopped
-    ports:
-      - "${APP_PORT:-80}:80"
     volumes:
       - storage:/var/www/html/storage/app
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/up"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
     environment:
       APP_NAME: "${APP_NAME:-Life Game}"
       APP_ENV: production
