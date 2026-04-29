@@ -7,7 +7,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSepara
 import LanguageSwitcher from '@/components/LanguageSwitcher.vue';
 import { getInitials } from '@/composables/useInitials';
 import { Link, usePage } from '@inertiajs/vue3';
-import { LayoutDashboard, LogIn, Menu, X } from 'lucide-vue-next';
+import { LayoutDashboard, LogIn, Menu } from 'lucide-vue-next';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { Auth } from '@/types';
@@ -71,8 +71,7 @@ const mobileMenuOpen = ref(false);
             <Drawer v-model:open="mobileMenuOpen">
                 <DrawerTrigger as-child>
                     <Button variant="ghost" size="icon" class="size-9" :aria-label="t('nav.menu')">
-                        <Menu v-if="!mobileMenuOpen" class="h-5 w-5" />
-                        <X v-else class="h-5 w-5" />
+                        <Menu class="h-5 w-5" />
                     </Button>
                 </DrawerTrigger>
                 <DrawerContent class="px-4 pb-8">

@@ -71,8 +71,8 @@ onMounted(() => {
 onUnmounted(() => {
     const el = gridContainer.value;
     if (!el) return;
-    el.removeEventListener('touchstart', onTouchStart);
-    el.removeEventListener('touchmove', onTouchMove);
+    el.removeEventListener('touchstart', onTouchStart, { passive: false } as EventListenerOptions);
+    el.removeEventListener('touchmove', onTouchMove, { passive: false } as EventListenerOptions);
     el.removeEventListener('touchend', stopDrawing);
 });
 </script>
