@@ -30,6 +30,19 @@
 
         <title inertia>{{ config('app.name', 'Laravel') }}</title>
 
+        {{-- Favicon --}}
+        <link rel="icon" type="image/x-icon" href="/favicon.ico">
+        <link rel="icon" type="image/png" sizes="16x16" href="/icon-16.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/icon-32.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="/icon-180.png">
+
+        {{-- PWA / Open Graph --}}
+        <link rel="manifest" href="/manifest.json">
+        <meta name="theme-color" content="#1a1a1a">
+        <meta property="og:image" content="/icon-512.png">
+        <meta property="og:image:width" content="512">
+        <meta property="og:image:height" content="512">
+
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
 

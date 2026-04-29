@@ -20,8 +20,8 @@ const { t } = useI18n();
 <template>
     <nav class="flex h-14 w-full items-center justify-between border-b border-border bg-background/95 px-4 shadow-sm backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <Link :href="route('home')" class="flex items-center gap-2.5 transition-opacity hover:opacity-80">
-            <div class="flex h-7 w-7 items-center justify-center rounded-md bg-primary text-primary-foreground">
-                <AppLogoIcon class="size-4 fill-current" />
+            <div class="flex h-7 w-7 items-center justify-center overflow-hidden rounded-md bg-primary">
+                <AppLogoIcon class="size-6 rounded" />
             </div>
             <span class="text-sm font-semibold tracking-tight">Life Game</span>
         </Link>

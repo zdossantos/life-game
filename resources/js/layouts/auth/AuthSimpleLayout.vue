@@ -50,8 +50,8 @@ const pattern = [
 
             <!-- Brand identity -->
             <div class="relative z-10 flex items-center gap-3">
-                <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-white/10 ring-1 ring-white/20">
-                    <AppLogoIcon class="size-5 fill-current text-white" />
+                <div class="flex h-9 w-9 items-center justify-center overflow-hidden rounded-lg bg-white/10 ring-1 ring-white/20">
+                    <AppLogoIcon class="size-7 rounded" />
                 </div>
                 <span class="text-lg font-semibold tracking-tight">Life Game</span>
             </div>
@@ -83,7 +83,7 @@ const pattern = [
                 <!-- Logo — visible only on mobile -->
                 <div class="flex flex-col items-center gap-4 lg:hidden">
                     <Link :href="route('home')">
-                        <AppLogoIcon class="size-10 fill-current text-foreground" />
+                        <AppLogoIcon class="size-10 rounded-lg" />
                     </Link>
                 </div>
 
