@@ -4,6 +4,7 @@ export default {
         tagline1: 'Simulate life,',
         tagline2: 'cycle after cycle.',
         inspired: 'Inspired by Conway\'s Game of Life',
+        backToHome: 'Back to home',
     },
 
     // ── Login ─────────────────────────────────────────────────────────

@@ -3,6 +3,7 @@ import AppLogoIcon from '@/components/AppLogoIcon.vue';
 import LanguageSwitcher from '@/components/LanguageSwitcher.vue';
 import { Link } from '@inertiajs/vue3';
 import { useI18n } from 'vue-i18n';
+import { Home } from 'lucide-vue-next';
 
 defineProps<{
     title?: string;
@@ -67,6 +68,17 @@ const pattern = [
 
         <!-- Right form panel -->
         <div class="flex flex-1 flex-col items-center justify-center p-8">
+            <!-- Back to home link -->
+            <div class="mb-4 w-full max-w-sm">
+                <Link
+                    :href="route('home')"
+                    class="inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
+                >
+                    <Home class="h-4 w-4" />
+                    {{ t('auth.backToHome') }}
+                </Link>
+            </div>
+
             <div class="w-full max-w-sm space-y-8">
                 <!-- Logo — visible only on mobile -->
                 <div class="flex flex-col items-center gap-4 lg:hidden">
