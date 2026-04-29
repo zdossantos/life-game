@@ -55,7 +55,8 @@ COPY . .
 COPY --from=node-builder /app/public/build ./public/build
 
 # Run Composer post-install scripts and set permissions
-RUN composer run-script post-autoload-dump \
+RUN composer dump-autoload --optimize \
+    && php artisan package:discover --ansi || true \
     && chown -R www-data:www-data /var/www/html \
     && chmod -R 755 /var/www/html/storage /var/www/html/bootstrap/cache
 
