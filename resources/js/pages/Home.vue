@@ -2,7 +2,7 @@
 import GameControls from '@/components/GameControls.vue';
 import GameGrid from '@/components/GameGrid.vue';
 import { Button } from '@/components/ui/button';
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
+import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger } from '@/components/ui/drawer';
 import type { GameSettings, Grid } from '@/types/game-of-life';
 import { Head } from '@inertiajs/vue3';
 import { SlidersHorizontal } from 'lucide-vue-next';
@@ -208,28 +208,30 @@ onUnmounted(() => {
                         >
                             {{ isRunning ? t('game.stop') : t('game.start') }}
                         </Button>
-                        <Sheet v-model:open="mobileControlsOpen">
-                            <SheetTrigger as-child>
+                        <Drawer v-model:open="mobileControlsOpen">
+                            <DrawerTrigger as-child>
                                 <Button size="icon" variant="outline" class="h-8 w-8" :aria-label="t('game.controls')">
                                     <SlidersHorizontal class="h-4 w-4" />
                                 </Button>
-                            </SheetTrigger>
-                            <SheetContent side="bottom" class="max-h-[80vh] overflow-y-auto rounded-t-2xl px-5 pb-8 pt-4">
-                                <SheetHeader class="mb-5">
-                                    <SheetTitle class="text-left">{{ t('game.controls') }}</SheetTitle>
-                                </SheetHeader>
-                                <GameControls
-                                    :is-running="isRunning"
-                                    :settings="settings"
-                                    :grid="grid"
-                                    :id="props.id"
-                                    :cycle-count="cycleCount"
-                                    @toggle-simulation="toggleSimulation"
-                                    @update-settings="updateSettings"
-                                    @reset="resetGrid"
-                                />
-                            </SheetContent>
-                        </Sheet>
+                            </DrawerTrigger>
+                            <DrawerContent class="max-h-[80vh]">
+                                <DrawerHeader class="shrink-0 px-5 pt-4 mb-5 text-left">
+                                    <DrawerTitle>{{ t('game.controls') }}</DrawerTitle>
+                                </DrawerHeader>
+                                <div class="flex-1 min-h-0 overflow-y-auto px-5 pb-8" data-vaul-no-drag>
+                                    <GameControls
+                                        :is-running="isRunning"
+                                        :settings="settings"
+                                        :grid="grid"
+                                        :id="props.id"
+                                        :cycle-count="cycleCount"
+                                        @toggle-simulation="toggleSimulation"
+                                        @update-settings="updateSettings"
+                                        @reset="resetGrid"
+                                    />
+                                </div>
+                            </DrawerContent>
+                        </Drawer>
                     </div>
                 </div>
 
