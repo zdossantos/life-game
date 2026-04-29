@@ -214,20 +214,22 @@ onUnmounted(() => {
                                     <SlidersHorizontal class="h-4 w-4" />
                                 </Button>
                             </DrawerTrigger>
-                            <DrawerContent class="max-h-[50vh] overflow-y-auto px-5 pb-8 pt-4">
-                                <DrawerHeader class="mb-5 text-left">
+                            <DrawerContent class="max-h-[80vh]">
+                                <DrawerHeader class="shrink-0 px-5 pt-4 mb-5 text-left">
                                     <DrawerTitle>{{ t('game.controls') }}</DrawerTitle>
                                 </DrawerHeader>
-                                <GameControls
-                                    :is-running="isRunning"
-                                    :settings="settings"
-                                    :grid="grid"
-                                    :id="props.id"
-                                    :cycle-count="cycleCount"
-                                    @toggle-simulation="toggleSimulation"
-                                    @update-settings="updateSettings"
-                                    @reset="resetGrid"
-                                />
+                                <div class="flex-1 min-h-0 overflow-y-auto px-5 pb-8" data-vaul-no-drag>
+                                    <GameControls
+                                        :is-running="isRunning"
+                                        :settings="settings"
+                                        :grid="grid"
+                                        :id="props.id"
+                                        :cycle-count="cycleCount"
+                                        @toggle-simulation="toggleSimulation"
+                                        @update-settings="updateSettings"
+                                        @reset="resetGrid"
+                                    />
+                                </div>
                             </DrawerContent>
                         </Drawer>
                     </div>
