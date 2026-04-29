@@ -1,11 +1,15 @@
 <script setup lang="ts">
 import AppLogoIcon from '@/components/AppLogoIcon.vue';
+import LanguageSwitcher from '@/components/LanguageSwitcher.vue';
 import { Link } from '@inertiajs/vue3';
+import { useI18n } from 'vue-i18n';
 
 defineProps<{
     title?: string;
     description?: string;
 }>();
+
+const { t } = useI18n();
 
 // Static Game of Life "Pulsar" inspired decorative cell pattern (13×13)
 const pattern = [
@@ -54,10 +58,10 @@ const pattern = [
             <!-- Tagline -->
             <div class="relative z-10 space-y-3">
                 <p class="text-2xl font-light leading-snug text-zinc-100">
-                    <span class="block">Simulez la vie,</span>
-                    <span class="block">cycle après cycle.</span>
+                    <span class="block">{{ t('auth.tagline1') }}</span>
+                    <span class="block">{{ t('auth.tagline2') }}</span>
                 </p>
-                <p class="text-sm text-zinc-500">Inspiré du jeu de la vie de Conway</p>
+                <p class="text-sm text-zinc-500">{{ t('auth.inspired') }}</p>
             </div>
         </div>
 
@@ -72,9 +76,12 @@ const pattern = [
                 </div>
 
                 <!-- Page title + description -->
-                <div class="space-y-1.5">
-                    <h1 class="text-2xl font-semibold tracking-tight">{{ title }}</h1>
-                    <p class="text-sm text-muted-foreground">{{ description }}</p>
+                <div class="flex items-start justify-between">
+                    <div class="space-y-1.5">
+                        <h1 class="text-2xl font-semibold tracking-tight">{{ title }}</h1>
+                        <p class="text-sm text-muted-foreground">{{ description }}</p>
+                    </div>
+                    <LanguageSwitcher class="mt-0.5 shrink-0" />
                 </div>
 
                 <slot />

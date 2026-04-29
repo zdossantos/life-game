@@ -5,6 +5,9 @@ import type { GameSettings, Grid } from '@/types/game-of-life';
 import { Head } from '@inertiajs/vue3';
 import { onUnmounted, ref, watch } from 'vue';
 import AppLayout from '@/layouts/AppLayout.vue';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 
 const props = defineProps<{
     id?: string,
@@ -179,11 +182,11 @@ onUnmounted(() => {
 
 <template>
     <AppLayout/>
-    <Head title="Game of Life" />
+    <Head :title="t('game.title')" />
     <div class="container mx-auto p-4 h-screen overflow-hidden">
         <div class="flex flex-col items-center h-full gap-4">
-            <h1 class="text-3xl font-bold">Game of Life</h1>
-            <h3 class="text-2xl font-bold">Cycles : {{ cycleCount }}</h3>
+            <h1 class="text-3xl font-bold">{{ t('game.title') }}</h1>
+            <h3 class="text-2xl font-bold">{{ t('game.cycles', { count: cycleCount }) }}</h3>
 
             <GameControls
                 :is-running="isRunning"

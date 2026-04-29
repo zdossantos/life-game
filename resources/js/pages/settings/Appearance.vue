@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Head } from '@inertiajs/vue3';
+import { useI18n } from 'vue-i18n';
 
 import AppearanceTabs from '@/components/dashboard/AppearanceTabs.vue';
 import HeadingSmall from '@/components/dashboard/HeadingSmall.vue';
@@ -8,9 +9,11 @@ import { type BreadcrumbItem } from '@/types';
 import SettingsLayout from '@/layouts/settings/Layout.vue';
 import DashboardLayout from '@/layouts/DashboardLayout.vue';
 
+const { t } = useI18n();
+
 const breadcrumbItems: BreadcrumbItem[] = [
     {
-        title: 'Appearance settings',
+        title: t('appearance.pageTitle'),
         href: '/settings/appearance',
     },
 ];
@@ -18,11 +21,11 @@ const breadcrumbItems: BreadcrumbItem[] = [
 
 <template>
     <DashboardLayout :breadcrumbs="breadcrumbItems">
-        <Head title="Appearance settings" />
+        <Head :title="t('appearance.pageTitle')" />
 
         <SettingsLayout>
             <div class="space-y-6">
-                <HeadingSmall title="Appearance settings" description="Update your account's appearance settings" />
+                <HeadingSmall :title="t('appearance.sectionTitle')" :description="t('appearance.sectionDesc')" />
                 <AppearanceTabs />
             </div>
         </SettingsLayout>
