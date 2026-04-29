@@ -214,7 +214,7 @@ onUnmounted(() => {
                                     <SlidersHorizontal class="h-4 w-4" />
                                 </Button>
                             </DrawerTrigger>
-                            <DrawerContent class="max-h-[80vh] overflow-y-auto px-5 pb-8 pt-4">
+                            <DrawerContent class="max-h-[50vh] overflow-y-auto px-5 pb-8 pt-4">
                                 <DrawerHeader class="mb-5 text-left">
                                     <DrawerTitle>{{ t('game.controls') }}</DrawerTitle>
                                 </DrawerHeader>
