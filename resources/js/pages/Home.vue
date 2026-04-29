@@ -183,10 +183,13 @@ onUnmounted(() => {
 <template>
     <AppLayout>
         <Head :title="t('game.title')" />
-        <div class="container mx-auto p-4 h-screen overflow-hidden">
-            <div class="flex flex-col items-center h-full gap-4">
-                <h1 class="text-3xl font-bold">{{ t('game.title') }}</h1>
-                <h3 class="text-2xl font-bold">{{ t('game.cycles', { count: cycleCount }) }}</h3>
+        <div class="flex min-h-0 flex-1 flex-col overflow-hidden">
+            <!-- Page header bar -->
+            <div class="flex items-center justify-between border-b border-border/60 bg-muted/30 px-4 py-2">
+                <div>
+                    <h1 class="text-lg font-semibold tracking-tight">{{ t('game.title') }}</h1>
+                    <p class="text-xs text-muted-foreground">{{ t('game.cycles', { count: cycleCount }) }}</p>
+                </div>
 
                 <GameControls
                     :is-running="isRunning"
@@ -198,10 +201,11 @@ onUnmounted(() => {
                     @update-settings="updateSettings"
                     @reset="resetGrid"
                 />
+            </div>
 
-                <div class="flex-1 w-full flex items-center justify-center">
-                    <GameGrid :grid="grid" :is-running="isRunning" @toggle-cell="toggleCell" />
-                </div>
+            <!-- Game grid area -->
+            <div class="flex min-h-0 flex-1 items-center justify-center p-4">
+                <GameGrid :grid="grid" :is-running="isRunning" @toggle-cell="toggleCell" />
             </div>
         </div>
     </AppLayout>
