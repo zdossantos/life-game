@@ -1,12 +1,17 @@
-# ─── Stage 1: Build frontend assets ─────────────────────────────────────────
-FROM node:22-alpine AS node-builder
-
+# ─── Stage 0: PHP dependencies (Composer) ────────────────────────────────────
+FROM composer:2 AS composer-builder
 WORKDIR /app
+COPY composer.json composer.lock ./
+RUN composer install --no-dev --no-scripts --no-interaction --optimize-autoloader
 
+# ─── Stage 1: Build frontend assets ──────────────────────────────────────────
+FROM node:22-alpine AS node-builder
+WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci
-
 COPY . .
+# Ziggy a besoin du vendor PHP pour générer les routes Laravel
+COPY --from=composer-builder /app/vendor ./vendor
 RUN npm run build
 
 # ─── Stage 2: Production image (PHP-FPM + Nginx + Supervisor) ────────────────
@@ -39,9 +44,9 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www/html
 
-# Copy composer files first for layer caching
+# Réutilise le vendor déjà buildé (évite un 2e composer install)
+COPY --from=composer-builder /app/vendor ./vendor
 COPY composer.json composer.lock ./
-RUN composer install --no-dev --no-scripts --no-interaction --optimize-autoloader
 
 # Copy application source
 COPY . .
@@ -59,10 +64,8 @@ COPY docker/nginx/nginx.conf /etc/nginx/nginx.conf
 COPY docker/nginx/site.conf /etc/nginx/http.d/default.conf
 COPY docker/supervisord.conf /etc/supervisord.conf
 COPY docker/php/php.ini /usr/local/etc/php/conf.d/99-app.ini
-
 COPY docker/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
 EXPOSE 80
-
 ENTRYPOINT ["/entrypoint.sh"]
