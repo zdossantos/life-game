@@ -30,10 +30,7 @@ const pattern = [
         <!-- Left branding panel — hidden on mobile -->
         <div class="relative hidden overflow-hidden bg-zinc-950 text-white lg:flex lg:w-5/12 lg:flex-col lg:justify-between lg:p-12">
             <!-- Subtle dot-grid background -->
-            <div
-                class="pointer-events-none absolute inset-0"
-                style="background-image: radial-gradient(rgba(255,255,255,0.11) 1.5px, transparent 1.5px); background-size: 28px 28px"
-            />
+            <div class="auth-dot-grid pointer-events-none absolute inset-0" />
 
             <!-- Decorative GOL cell grid centered in panel -->
             <div class="pointer-events-none absolute inset-0 flex items-center justify-center">
@@ -56,7 +53,10 @@ const pattern = [
 
             <!-- Tagline -->
             <div class="relative z-10 space-y-3">
-                <p class="text-2xl font-light leading-snug text-zinc-100">Simulez la vie,<br />cycle après cycle.</p>
+                <p class="text-2xl font-light leading-snug text-zinc-100">
+                    <span class="block">Simulez la vie,</span>
+                    <span class="block">cycle après cycle.</span>
+                </p>
                 <p class="text-sm text-zinc-500">Inspiré du jeu de la vie de Conway</p>
             </div>
         </div>
