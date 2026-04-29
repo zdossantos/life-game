@@ -32,7 +32,7 @@ const submit = () => {
 
 <template>
     <AuthBase :title="t('login.title')" :description="t('login.description')">
-        <Head :title="t('login.submit')" />
+        <Head :title="t('login.title')" />
 
         <div v-if="status" class="mb-4 text-center text-sm font-medium text-green-600">
             {{ status }}

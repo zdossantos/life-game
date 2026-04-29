@@ -25,7 +25,7 @@ const submit = () => {
 
 <template>
     <AuthLayout :title="t('confirmPassword.title')" :description="t('confirmPassword.description')">
-        <Head :title="t('confirmPassword.submit')" />
+        <Head :title="t('confirmPassword.title')" />
 
         <form @submit.prevent="submit">
             <div class="space-y-6">
