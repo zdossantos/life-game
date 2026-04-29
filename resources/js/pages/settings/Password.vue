@@ -3,7 +3,7 @@ import InputError from '@/components/InputError.vue';
 import SettingsLayout from '@/layouts/settings/Layout.vue';
 import { TransitionRoot } from '@headlessui/vue';
 import { Head, useForm } from '@inertiajs/vue3';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import HeadingSmall from '@/components/dashboard/HeadingSmall.vue';
@@ -15,12 +15,12 @@ import DashboardLayout from '@/layouts/DashboardLayout.vue';
 
 const { t } = useI18n();
 
-const breadcrumbItems: BreadcrumbItem[] = [
+const breadcrumbItems = computed<BreadcrumbItem[]>(() => [
     {
         title: t('password.pageTitle'),
         href: '/settings/password',
     },
-];
+]);
 
 const passwordInput = ref<HTMLInputElement | null>(null);
 const currentPasswordInput = ref<HTMLInputElement | null>(null);

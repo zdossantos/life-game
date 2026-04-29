@@ -77,8 +77,8 @@ const closeModal = () => {
                                 <Button variant="secondary" @click="closeModal">{{ t('deleteAccount.cancel') }}</Button>
                             </DialogClose>
 
-                            <Button variant="destructive" :disabled="form.processing">
-                                <button type="submit">{{ t('deleteAccount.confirm') }}</button>
+                            <Button type="submit" variant="destructive" :disabled="form.processing">
+                                {{ t('deleteAccount.confirm') }}
                             </Button>
                         </DialogFooter>
                     </form>

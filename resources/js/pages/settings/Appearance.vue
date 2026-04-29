@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { computed } from 'vue';
 import { Head } from '@inertiajs/vue3';
 import { useI18n } from 'vue-i18n';
 
@@ -11,12 +12,12 @@ import DashboardLayout from '@/layouts/DashboardLayout.vue';
 
 const { t } = useI18n();
 
-const breadcrumbItems: BreadcrumbItem[] = [
+const breadcrumbItems = computed<BreadcrumbItem[]>(() => [
     {
         title: t('appearance.pageTitle'),
         href: '/settings/appearance',
     },
-];
+]);
 </script>
 
 <template>

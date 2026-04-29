@@ -49,12 +49,11 @@ const saveSettings = () => {
         selected_color: props.settings.selectedColor,
         cycle_count: props.cycleCount,
     }, {
-        onSuccess: (data) => {
-            console.log(data)
+        onSuccess: () => {
             toast.success(t('game.savedSuccess'));
         },
         onError: (errors) => {
-            console.error('Erreur de sauvegarde:', errors);
+            console.error('Save error:', errors);
         }
     });
 };

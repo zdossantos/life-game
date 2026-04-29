@@ -39,6 +39,11 @@ export const i18n = createI18n<[MessageSchema], SupportedLocale>({
     messages: { en, fr },
 });
 
+// Set the HTML lang attribute to match the detected locale on startup
+if (typeof window !== 'undefined') {
+    document.documentElement.lang = (i18n.global.locale as { value: SupportedLocale }).value;
+}
+
 /** Persist the user's chosen locale and update the i18n instance. */
 export function setLocale(locale: SupportedLocale) {
     (i18n.global.locale as { value: SupportedLocale }).value = locale;

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { computed } from 'vue';
 import { TransitionRoot } from '@headlessui/vue';
 import { Head, Link, useForm, usePage } from '@inertiajs/vue3';
 import { useI18n } from 'vue-i18n';
@@ -22,12 +23,12 @@ defineProps<Props>();
 
 const { t } = useI18n();
 
-const breadcrumbs: BreadcrumbItem[] = [
+const breadcrumbs = computed<BreadcrumbItem[]>(() => [
     {
         title: t('profile.pageTitle'),
         href: '/settings/profile',
     },
-];
+]);
 
 const page = usePage<SharedData>();
 const user = page.props.auth.user as User;
