@@ -13,13 +13,15 @@ defineProps<{
     status?: string;
 }>();
 
-const { t } = useI18n();
+const { t, locale } = useI18n();
 
 const form = useForm({
     email: '',
+    locale: locale.value,
 });
 
 const submit = () => {
+    form.locale = locale.value;
     form.post(route('password.email'));
 };
 </script>

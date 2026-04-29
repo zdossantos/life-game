@@ -100,11 +100,11 @@ const auth = computed(() => page.props.auth);
             </p>
             <div class="flex items-center justify-between">
                 <Label class="text-sm font-normal">{{ t('game.color') }}</Label>
-                <input
+                <Input
                     type="color"
-                    :value="settings.selectedColor"
-                    @input="(e) => updateSettings('selectedColor', (e.target as HTMLInputElement).value)"
-                    class="h-8 w-12 cursor-pointer rounded-md border border-border bg-transparent p-0.5"
+                    :model-value="settings.selectedColor"
+                    @update:model-value="(v) => updateSettings('selectedColor', v as string)"
+                    class="h-8 w-12 cursor-pointer p-0.5"
                 />
             </div>
         </div>

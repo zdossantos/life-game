@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Validation\ValidationException;
@@ -31,8 +32,16 @@ class PasswordResetLinkController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            'email' => 'required|email',
+            'email'  => 'required|email',
+            'locale' => 'sometimes|string|in:en,fr',
         ]);
+
+        // Apply the user's chosen locale so the reset e-mail is sent in
+        // their language (resolved by ResetPassword::toMailUsing in
+        // AppServiceProvider via __() calls).
+        if ($request->filled('locale')) {
+            App::setLocale($request->input('locale'));
+        }
 
         try {
             $status = Password::sendResetLink(
@@ -46,8 +55,8 @@ class PasswordResetLinkController extends Controller
             }
         } catch (ValidationException $e) {
             throw $e;
-        } catch (\Exception $e) {
-            Log::error('Password reset email failed: '.$e->getMessage());
+        } catch (\Symfony\Component\Mailer\Exception\TransportExceptionInterface $e) {
+            Log::error('Password reset email failed (transport): '.$e->getMessage());
 
             throw ValidationException::withMessages([
                 'email' => [__('passwords.failed')],
