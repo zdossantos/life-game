@@ -15,7 +15,7 @@ COPY --from=composer-builder /app/vendor ./vendor
 RUN npm run build
 
 # ─── Stage 2: Production image (PHP-FPM + Nginx + Supervisor) ────────────────
-FROM php:8.2-fpm-alpine
+FROM php:8.3-fpm-alpine
 
 # Install system packages and PHP extensions
 RUN apk add --no-cache \
