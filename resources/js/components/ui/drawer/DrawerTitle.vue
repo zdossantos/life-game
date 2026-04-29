@@ -1,13 +1,17 @@
-<script setup lang="ts">
-import { cn } from '@/lib/utils';
+<script lang="ts" setup>
+import type { DrawerTitleProps } from 'vaul-vue';
+import type { HTMLAttributes } from 'vue';
+import { reactiveOmit } from '@vueuse/core';
 import { DrawerTitle } from 'vaul-vue';
-import { type HTMLAttributes } from 'vue';
+import { cn } from '@/lib/utils';
 
-const props = defineProps<{ class?: HTMLAttributes['class'] }>();
+const props = defineProps<DrawerTitleProps & { class?: HTMLAttributes['class'] }>();
+
+const delegatedProps = reactiveOmit(props, 'class');
 </script>
 
 <template>
-    <DrawerTitle :class="cn('text-lg font-semibold leading-none tracking-tight', props.class)">
+    <DrawerTitle data-slot="drawer-title" v-bind="delegatedProps" :class="cn('text-foreground font-semibold', props.class)">
         <slot />
     </DrawerTitle>
 </template>
