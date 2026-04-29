@@ -8,14 +8,24 @@ import { Label } from '@/components/ui/label';
 import AuthBase from '@/layouts/AuthLayout.vue';
 import { Head, useForm } from '@inertiajs/vue3';
 import { LoaderCircle } from 'lucide-vue-next';
+import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-defineProps<{
+const props = defineProps<{
     status?: string;
     canResetPassword: boolean;
 }>();
 
 const { t } = useI18n();
+
+// Map known server-side status strings to frontend translation keys.
+// Falls back to displaying the raw status string for unrecognised messages.
+const statusMessage = computed<string | undefined>(() => {
+    if (!props.status) return undefined;
+    if (props.status.includes('password') && props.status.includes('reset')) return t('login.passwordReset');
+    if (props.status.includes('verified')) return t('login.emailVerified');
+    return props.status;
+});
 
 const form = useForm({
     email: '',
@@ -34,8 +44,8 @@ const submit = () => {
     <AuthBase :title="t('login.title')" :description="t('login.description')">
         <Head :title="t('login.title')" />
 
-        <div v-if="status" class="mb-4 text-center text-sm font-medium text-green-600">
-            {{ t('login.passwordReset') }}
+        <div v-if="statusMessage" class="mb-4 text-center text-sm font-medium text-green-600">
+            {{ statusMessage }}
         </div>
 
         <form @submit.prevent="submit" class="flex flex-col gap-6">
