@@ -164,7 +164,7 @@ export default {
     nav: {
         platform: 'Plateforme',
         dashboard: 'Tableau de bord',
-        githubRepo: 'Dépôt Github',
+        githubRepo: 'Dépôt GitHub',
         documentation: 'Documentation',
     },
 
