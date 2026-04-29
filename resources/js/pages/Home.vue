@@ -210,7 +210,7 @@ onUnmounted(() => {
                         </Button>
                         <Sheet v-model:open="mobileControlsOpen">
                             <SheetTrigger as-child>
-                                <Button size="icon" variant="outline" class="h-8 w-8">
+                                <Button size="icon" variant="outline" class="h-8 w-8" :aria-label="t('game.controls')">
                                     <SlidersHorizontal class="h-4 w-4" />
                                 </Button>
                             </SheetTrigger>

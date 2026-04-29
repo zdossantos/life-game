@@ -42,6 +42,15 @@ const updateSettings = (key: keyof GameSettings, value: any) => {
     });
 };
 
+/**
+ * Safely parse a rule value (0–8). Returns the fallback when the
+ * input is empty or otherwise not a valid integer.
+ */
+const parseRuleValue = (v: string | number | undefined, fallback: number): number => {
+    const parsed = parseInt(String(v), 10);
+    return isNaN(parsed) ? fallback : Math.max(0, Math.min(8, parsed));
+};
+
 const saveSettings = () => {
     router.post(route('save.store'), {
         id: props.id,
@@ -82,10 +91,10 @@ const auth = computed(() => page.props.auth);
                     <Play v-else class="h-3.5 w-3.5" />
                     {{ isRunning ? t('game.stop') : t('game.start') }}
                 </Button>
-                <Button variant="outline" size="icon" :title="t('game.reset')" @click="$emit('reset')">
+                <Button variant="outline" size="icon" :title="t('game.reset')" :aria-label="t('game.reset')" @click="$emit('reset')">
                     <RotateCcw class="h-4 w-4" />
                 </Button>
-                <Button v-if="auth.user" variant="outline" size="icon" :title="t('game.save')" @click="saveSettings">
+                <Button v-if="auth.user" variant="outline" size="icon" :title="t('game.save')" :aria-label="t('game.save')" @click="saveSettings">
                     <Save class="h-4 w-4" />
                 </Button>
             </div>
@@ -99,8 +108,9 @@ const auth = computed(() => page.props.auth);
                 {{ t('game.appearance') }}
             </p>
             <div class="flex items-center justify-between">
-                <Label class="text-sm font-normal">{{ t('game.color') }}</Label>
+                <Label for="cell-color" class="text-sm font-normal">{{ t('game.color') }}</Label>
                 <Input
+                    id="cell-color"
                     type="color"
                     :model-value="settings.selectedColor"
                     @update:model-value="(v) => updateSettings('selectedColor', v as string)"
@@ -118,15 +128,17 @@ const auth = computed(() => page.props.auth);
             </p>
             <div class="space-y-3">
                 <div class="flex items-center justify-between">
-                    <Label class="text-sm font-normal">{{ t('game.gridSizeLabel') }}</Label>
+                    <Label for="grid-size-slider" class="text-sm font-normal">{{ t('game.gridSizeLabel') }}</Label>
                     <span class="tabular-nums text-sm font-semibold">{{ settings.gridSize }}</span>
                 </div>
                 <Slider
+                    id="grid-size-slider"
                     :model-value="[settings.gridSize]"
                     @update:model-value="(v: any) => updateSettings('gridSize', v[0])"
                     :min="10"
                     :max="50"
                     :step="1"
+                    :aria-label="t('game.gridSizeLabel')"
                 />
             </div>
         </div>
@@ -140,15 +152,17 @@ const auth = computed(() => page.props.auth);
             </p>
             <div class="space-y-3">
                 <div class="flex items-center justify-between">
-                    <Label class="text-sm font-normal">{{ t('game.speedLabel') }}</Label>
+                    <Label for="update-speed-slider" class="text-sm font-normal">{{ t('game.speedLabel') }}</Label>
                     <span class="tabular-nums text-sm font-semibold">{{ settings.updateSpeed }} ms</span>
                 </div>
                 <Slider
+                    id="update-speed-slider"
                     :model-value="[settings.updateSpeed]"
                     @update:model-value="(v: any) => updateSettings('updateSpeed', v[0])"
                     :min="100"
                     :max="1000"
                     :step="100"
+                    :aria-label="t('game.speedLabel')"
                 />
             </div>
         </div>
@@ -162,15 +176,16 @@ const auth = computed(() => page.props.auth);
             </p>
             <div class="grid grid-cols-3 gap-3">
                 <div class="space-y-1.5">
-                    <Label class="text-xs text-muted-foreground">{{ t('game.surviveMin') }}</Label>
+                    <Label for="survive-min" class="text-xs text-muted-foreground">{{ t('game.surviveMin') }}</Label>
                     <Input
+                        id="survive-min"
                         type="number"
                         :model-value="settings.neighborThresholds.surviveMin"
                         @update:model-value="
                             (v) =>
                                 updateSettings('neighborThresholds', {
                                     ...settings.neighborThresholds,
-                                    surviveMin: parseInt(v as string),
+                                    surviveMin: parseRuleValue(v as string, settings.neighborThresholds.surviveMin),
                                 })
                         "
                         min="0"
@@ -179,15 +194,16 @@ const auth = computed(() => page.props.auth);
                     />
                 </div>
                 <div class="space-y-1.5">
-                    <Label class="text-xs text-muted-foreground">{{ t('game.surviveMax') }}</Label>
+                    <Label for="survive-max" class="text-xs text-muted-foreground">{{ t('game.surviveMax') }}</Label>
                     <Input
+                        id="survive-max"
                         type="number"
                         :model-value="settings.neighborThresholds.surviveMax"
                         @update:model-value="
                             (v) =>
                                 updateSettings('neighborThresholds', {
                                     ...settings.neighborThresholds,
-                                    surviveMax: parseInt(v as string),
+                                    surviveMax: parseRuleValue(v as string, settings.neighborThresholds.surviveMax),
                                 })
                         "
                         min="0"
@@ -196,15 +212,16 @@ const auth = computed(() => page.props.auth);
                     />
                 </div>
                 <div class="space-y-1.5">
-                    <Label class="text-xs text-muted-foreground">{{ t('game.birth') }}</Label>
+                    <Label for="birth-count" class="text-xs text-muted-foreground">{{ t('game.birth') }}</Label>
                     <Input
+                        id="birth-count"
                         type="number"
                         :model-value="settings.neighborThresholds.birthCount"
                         @update:model-value="
                             (v) =>
                                 updateSettings('neighborThresholds', {
                                     ...settings.neighborThresholds,
-                                    birthCount: parseInt(v as string),
+                                    birthCount: parseRuleValue(v as string, settings.neighborThresholds.birthCount),
                                 })
                         "
                         min="0"
