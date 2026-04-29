@@ -27,7 +27,7 @@ const submit = () => {
 
 <template>
     <AuthBase :title="t('register.title')" :description="t('register.description')">
-        <Head :title="t('register.submit')" />
+        <Head :title="t('register.title')" />
 
         <form @submit.prevent="submit" class="flex flex-col gap-6">
             <div class="grid gap-6">
