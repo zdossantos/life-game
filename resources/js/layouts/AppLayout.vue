@@ -10,7 +10,9 @@ withDefaults(defineProps<Props>(), {
     breadcrumbs: () => [],
 });
 </script>
-<template class="flex flex-col h-screen w-screen">
-    <Navbar/>
+<template>
+    <div class="flex h-screen w-screen flex-col overflow-hidden bg-background">
+        <Navbar />
         <slot />
+    </div>
 </template>

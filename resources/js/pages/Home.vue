@@ -1,10 +1,16 @@
 <script setup lang="ts">
 import GameControls from '@/components/GameControls.vue';
 import GameGrid from '@/components/GameGrid.vue';
+import { Button } from '@/components/ui/button';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import type { GameSettings, Grid } from '@/types/game-of-life';
 import { Head } from '@inertiajs/vue3';
+import { SlidersHorizontal } from 'lucide-vue-next';
 import { onUnmounted, ref, watch } from 'vue';
 import AppLayout from '@/layouts/AppLayout.vue';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 
 const props = defineProps<{
     id?: string,
@@ -29,6 +35,7 @@ const settings = ref<GameSettings>(
 const grid = ref<Grid>(props.grid || createEmptyGrid(settings.value.gridSize));
 const cycleCount = ref(props.cycleCount || 0);
 const isRunning = ref(false);
+const mobileControlsOpen = ref(false);
 let intervalId: ReturnType<typeof setInterval> | null = null;
 
 function createEmptyGrid(size: number): Grid {
@@ -178,27 +185,95 @@ onUnmounted(() => {
 </script>
 
 <template>
-    <AppLayout/>
-    <Head title="Game of Life" />
-    <div class="container mx-auto p-4 h-screen overflow-hidden">
-        <div class="flex flex-col items-center h-full gap-4">
-            <h1 class="text-3xl font-bold">Game of Life</h1>
-            <h3 class="text-2xl font-bold">Cycles : {{ cycleCount }}</h3>
+    <AppLayout>
+        <Head :title="t('game.title')" />
 
-            <GameControls
-                :is-running="isRunning"
-                :settings="settings"
-                :grid="grid"
-                :id="props.id"
-                :cycle-count="cycleCount"
-                @toggle-simulation="toggleSimulation"
-                @update-settings="updateSettings"
-                @reset="resetGrid"
-            />
+        <div class="flex min-h-0 flex-1 overflow-hidden">
 
-            <div class="flex-1 w-full flex items-center justify-center">
-                <GameGrid :grid="grid" :is-running="isRunning" @toggle-cell="toggleCell" />
+            <!-- ── Main game area ─────────────────────────────────────── -->
+            <div class="flex min-h-0 flex-1 flex-col">
+
+                <!-- Mobile top bar -->
+                <div class="flex items-center justify-between border-b border-border/60 bg-muted/30 px-4 py-2 md:hidden">
+                    <div class="min-w-0">
+                        <h1 class="truncate text-base font-semibold tracking-tight">{{ t('game.title') }}</h1>
+                        <p class="text-xs text-muted-foreground">{{ t('game.cycles', { count: cycleCount }) }}</p>
+                    </div>
+                    <div class="flex shrink-0 items-center gap-2 pl-2">
+                        <Button
+                            size="sm"
+                            :variant="isRunning ? 'destructive' : 'default'"
+                            class="h-8 px-3 text-xs"
+                            @click="toggleSimulation"
+                        >
+                            {{ isRunning ? t('game.stop') : t('game.start') }}
+                        </Button>
+                        <Sheet v-model:open="mobileControlsOpen">
+                            <SheetTrigger as-child>
+                                <Button size="icon" variant="outline" class="h-8 w-8" :aria-label="t('game.controls')">
+                                    <SlidersHorizontal class="h-4 w-4" />
+                                </Button>
+                            </SheetTrigger>
+                            <SheetContent side="bottom" class="max-h-[80vh] overflow-y-auto rounded-t-2xl px-5 pb-8 pt-4">
+                                <SheetHeader class="mb-5">
+                                    <SheetTitle class="text-left">{{ t('game.controls') }}</SheetTitle>
+                                </SheetHeader>
+                                <GameControls
+                                    :is-running="isRunning"
+                                    :settings="settings"
+                                    :grid="grid"
+                                    :id="props.id"
+                                    :cycle-count="cycleCount"
+                                    @toggle-simulation="toggleSimulation"
+                                    @update-settings="updateSettings"
+                                    @reset="resetGrid"
+                                />
+                            </SheetContent>
+                        </Sheet>
+                    </div>
+                </div>
+
+                <!-- Grid area -->
+                <div class="flex min-h-0 flex-1 items-center justify-center p-3 md:p-6">
+                    <GameGrid :grid="grid" :is-running="isRunning" @toggle-cell="toggleCell" />
+                </div>
             </div>
+
+            <!-- ── Desktop controls sidebar ───────────────────────────── -->
+            <aside class="hidden w-72 shrink-0 flex-col border-l border-border bg-muted/10 md:flex">
+                <!-- Sidebar header -->
+                <div class="border-b border-border px-5 py-4">
+                    <h1 class="text-lg font-bold tracking-tight">{{ t('game.title') }}</h1>
+                    <div class="mt-2 flex items-center gap-2">
+                        <span class="inline-flex items-center rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-semibold text-primary">
+                            {{ t('game.cycles', { count: cycleCount }) }}
+                        </span>
+                        <span
+                            v-if="isRunning"
+                            class="inline-flex items-center gap-1.5 text-xs font-medium text-emerald-600 dark:text-emerald-400"
+                        >
+                            <span class="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-500" />
+                            {{ t('game.running') }}
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Controls -->
+                <div class="flex-1 overflow-y-auto px-5 py-5">
+                    <GameControls
+                        :is-running="isRunning"
+                        :settings="settings"
+                        :grid="grid"
+                        :id="props.id"
+                        :cycle-count="cycleCount"
+                        @toggle-simulation="toggleSimulation"
+                        @update-settings="updateSettings"
+                        @reset="resetGrid"
+                    />
+                </div>
+            </aside>
+
         </div>
-    </div>
+    </AppLayout>
 </template>
+
