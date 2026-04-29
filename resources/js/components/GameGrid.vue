@@ -81,19 +81,18 @@ onUnmounted(() => {
     <div class="flex justify-center items-center w-full h-full">
         <div
             ref="gridContainer"
-            class="inline-block border border-gray-200 dark:border-gray-700 rounded-lg aspect-square"
+            class="border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden"
+            :style="{
+                width: 'min(100%, 90vw, 90vh)',
+                height: 'min(100%, 90vw, 90vh)',
+                display: 'grid',
+                gridTemplateColumns: `repeat(${grid.length}, 1fr)`,
+                gridTemplateRows: `repeat(${grid.length}, 1fr)`,
+            }"
             @mouseup="stopDrawing"
             @mouseleave="stopDrawing"
-            :style="{
-            height: 'min(100%, 90vw)'
-        }"
         >
-            <div
-                v-for="(row, i) in grid"
-                :key="i"
-                class="flex"
-                :style="`height: ${100/grid.length}%`"
-            >
+            <template v-for="(row, i) in grid" :key="i">
                 <div
                     v-for="(cell, j) in row"
                     :key="j"
@@ -101,7 +100,7 @@ onUnmounted(() => {
                     :data-col="j"
                     @mousedown="startDrawing(i, j)"
                     @mousemove="draw(i, j)"
-                    class="aspect-square border border-gray-200 dark:border-gray-700 transition-colors duration-200"
+                    class="border border-gray-200 dark:border-gray-700 transition-colors duration-200"
                     :style="{
                         backgroundColor: cell.alive === 1 ? cell.color : undefined
                     }"
@@ -110,8 +109,8 @@ onUnmounted(() => {
                         { 'cursor-not-allowed': isRunning },
                         { 'cursor-pointer': !isRunning }
                     ]"
-                ></div>
-            </div>
+                />
+            </template>
         </div>
     </div>
 </template>
