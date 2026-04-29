@@ -164,7 +164,7 @@ export default {
     nav: {
         platform: 'Platform',
         dashboard: 'Dashboard',
-        githubRepo: 'Github Repo',
+        githubRepo: 'GitHub Repo',
         documentation: 'Documentation',
     },
 
