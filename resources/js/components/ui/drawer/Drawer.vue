@@ -1,19 +1,19 @@
-<script setup lang="ts">
-import { DrawerRoot, type DrawerRootEmits, type DrawerRootProps } from 'vaul-vue';
+<script lang="ts" setup>
+import type { DrawerRootEmits, DrawerRootProps } from 'vaul-vue';
+import { useForwardPropsEmits } from 'reka-ui';
+import { DrawerRoot } from 'vaul-vue';
 
-const props = defineProps<DrawerRootProps>();
+const props = withDefaults(defineProps<DrawerRootProps>(), {
+    shouldScaleBackground: true,
+});
+
 const emits = defineEmits<DrawerRootEmits>();
+
+const forwarded = useForwardPropsEmits(props, emits);
 </script>
 
 <template>
-    <DrawerRoot
-        v-bind="props"
-        @drag="emits('drag', $event)"
-        @release="emits('release', $event)"
-        @close="emits('close')"
-        @update:open="emits('update:open', $event)"
-        @update:activeSnapPoint="emits('update:activeSnapPoint', $event)"
-    >
-        <slot />
+    <DrawerRoot v-slot="slotProps" data-slot="drawer" v-bind="forwarded">
+        <slot v-bind="slotProps" />
     </DrawerRoot>
 </template>
