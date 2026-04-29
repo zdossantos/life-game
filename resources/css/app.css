@@ -8,6 +8,12 @@ html {
         'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 }
 
+/* Decorative dot-grid pattern used on the auth branding panel */
+.auth-dot-grid {
+    background-image: radial-gradient(rgba(255, 255, 255, 0.11) 1.5px, transparent 1.5px);
+    background-size: 28px 28px;
+}
+
 @layer base {
     :root {
         --background: 0 0% 100%;

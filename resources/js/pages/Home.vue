@@ -5,6 +5,9 @@ import type { GameSettings, Grid } from '@/types/game-of-life';
 import { Head } from '@inertiajs/vue3';
 import { onUnmounted, ref, watch } from 'vue';
 import AppLayout from '@/layouts/AppLayout.vue';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 
 const props = defineProps<{
     id?: string,
@@ -178,27 +181,28 @@ onUnmounted(() => {
 </script>
 
 <template>
-    <AppLayout/>
-    <Head title="Game of Life" />
-    <div class="container mx-auto p-4 h-screen overflow-hidden">
-        <div class="flex flex-col items-center h-full gap-4">
-            <h1 class="text-3xl font-bold">Game of Life</h1>
-            <h3 class="text-2xl font-bold">Cycles : {{ cycleCount }}</h3>
+    <AppLayout>
+        <Head :title="t('game.title')" />
+        <div class="container mx-auto p-4 h-screen overflow-hidden">
+            <div class="flex flex-col items-center h-full gap-4">
+                <h1 class="text-3xl font-bold">{{ t('game.title') }}</h1>
+                <h3 class="text-2xl font-bold">{{ t('game.cycles', { count: cycleCount }) }}</h3>
 
-            <GameControls
-                :is-running="isRunning"
-                :settings="settings"
-                :grid="grid"
-                :id="props.id"
-                :cycle-count="cycleCount"
-                @toggle-simulation="toggleSimulation"
-                @update-settings="updateSettings"
-                @reset="resetGrid"
-            />
+                <GameControls
+                    :is-running="isRunning"
+                    :settings="settings"
+                    :grid="grid"
+                    :id="props.id"
+                    :cycle-count="cycleCount"
+                    @toggle-simulation="toggleSimulation"
+                    @update-settings="updateSettings"
+                    @reset="resetGrid"
+                />
 
-            <div class="flex-1 w-full flex items-center justify-center">
-                <GameGrid :grid="grid" :is-running="isRunning" @toggle-cell="toggleCell" />
+                <div class="flex-1 w-full flex items-center justify-center">
+                    <GameGrid :grid="grid" :is-running="isRunning" @toggle-cell="toggleCell" />
+                </div>
             </div>
         </div>
-    </div>
+    </AppLayout>
 </template>

@@ -5,7 +5,11 @@ import { Input } from '@/components/ui/input';
 import type { GameSettings, Grid } from '@/types/game-of-life';
 import { router, usePage } from '@inertiajs/vue3';
 import { computed, watch } from 'vue';
-import { toast } from 'vue-sonner'
+import { toast } from 'vue-sonner';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
+
 const props = defineProps<{
     id?: string;
     grid: Grid;
@@ -45,13 +49,11 @@ const saveSettings = () => {
         selected_color: props.settings.selectedColor,
         cycle_count: props.cycleCount,
     }, {
-        onSuccess: (data) => {
-            console.log(data)
-            toast.success('Sauvegarde réussie');
+        onSuccess: () => {
+            toast.success(t('game.savedSuccess'));
         },
         onError: (errors) => {
-            // Gérer les erreurs
-            console.error('Erreur de sauvegarde:', errors);
+            console.error('Save error:', errors);
         }
     });
 };
@@ -63,10 +65,10 @@ const auth = computed(() => page.props.auth);
     <div class="w-full max-w-md space-y-4">
         <div class="flex items-center justify-between gap-4">
             <Button @click="$emit('toggle-simulation')" variant="default">
-                {{ isRunning ? 'Arrêter' : 'Démarrer' }}
+                {{ isRunning ? t('game.stop') : t('game.start') }}
             </Button>
-            <Button @click="$emit('reset')" variant="outline"> Réinitialiser </Button>
-            <Button @click="saveSettings" variant="outline" v-if="auth.user"> Sauvegarder </Button>
+            <Button @click="$emit('reset')" variant="outline">{{ t('game.reset') }}</Button>
+            <Button @click="saveSettings" variant="outline" v-if="auth.user">{{ t('game.save') }}</Button>
 
             <Input
                 type="color"
@@ -77,7 +79,7 @@ const auth = computed(() => page.props.auth);
         </div>
 
         <div class="space-y-2">
-            <label class="text-sm font-medium leading-none"> Taille de la grille: {{ settings.gridSize }} </label>
+            <label class="text-sm font-medium leading-none">{{ t('game.gridSize', { size: settings.gridSize }) }}</label>
             <Slider
                 :model-value="[settings.gridSize]"
                 @update:model-value="(v: any) => updateSettings('gridSize', v[0])"
@@ -88,7 +90,7 @@ const auth = computed(() => page.props.auth);
         </div>
 
         <div class="space-y-2">
-            <label class="text-sm font-medium leading-none"> Vitesse (ms): {{ settings.updateSpeed }} </label>
+            <label class="text-sm font-medium leading-none">{{ t('game.speed', { speed: settings.updateSpeed }) }}</label>
             <Slider
                 :model-value="[settings.updateSpeed]"
                 @update:model-value="(v: any) => updateSettings('updateSpeed', v[0])"
@@ -100,7 +102,7 @@ const auth = computed(() => page.props.auth);
 
         <div class="grid grid-cols-3 gap-4">
             <div>
-                <label class="text-sm font-medium leading-none">Survie Min</label>
+                <label class="text-sm font-medium leading-none">{{ t('game.surviveMin') }}</label>
                 <Input
                     type="number"
                     :model-value="settings.neighborThresholds.surviveMin"
@@ -116,7 +118,7 @@ const auth = computed(() => page.props.auth);
                 />
             </div>
             <div>
-                <label class="text-sm font-medium leading-none">Survie Max</label>
+                <label class="text-sm font-medium leading-none">{{ t('game.surviveMax') }}</label>
                 <Input
                     type="number"
                     :model-value="settings.neighborThresholds.surviveMax"
@@ -132,7 +134,7 @@ const auth = computed(() => page.props.auth);
                 />
             </div>
             <div>
-                <label class="text-sm font-medium leading-none">Naissance</label>
+                <label class="text-sm font-medium leading-none">{{ t('game.birth') }}</label>
                 <Input
                     type="number"
                     :model-value="settings.neighborThresholds.birthCount"
