@@ -29,7 +29,7 @@ const submit = () => {
         <Head :title="t('forgotPassword.title')" />
 
         <div v-if="status" class="mb-4 text-center text-sm font-medium text-green-600">
-            {{ status }}
+            {{ t('forgotPassword.statusSent') }}
         </div>
 
         <div class="space-y-6">

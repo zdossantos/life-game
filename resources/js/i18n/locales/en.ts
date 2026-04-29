@@ -4,6 +4,7 @@ export default {
         tagline1: 'Simulate life,',
         tagline2: 'cycle after cycle.',
         inspired: 'Inspired by Conway\'s Game of Life',
+        backToHome: 'Back to home',
     },
 
     // ── Login ─────────────────────────────────────────────────────────
@@ -17,6 +18,8 @@ export default {
         submit: 'Log in',
         noAccount: "Don't have an account?",
         signUp: 'Sign up',
+        passwordReset: 'Your password has been reset.',
+        emailVerified: 'Your email address has been verified.',
     },
 
     // ── Register ──────────────────────────────────────────────────────
@@ -41,6 +44,7 @@ export default {
         submit: 'Email password reset link',
         returnTo: 'Or, return to',
         logIn: 'log in',
+        statusSent: 'A reset link will be sent if the account exists.',
     },
 
     // ── Reset password ────────────────────────────────────────────────
@@ -51,6 +55,7 @@ export default {
         password: 'Password',
         confirmPassword: 'Confirm Password',
         submit: 'Reset password',
+        success: 'Your password has been reset.',
     },
 
     // ── Confirm password ──────────────────────────────────────────────

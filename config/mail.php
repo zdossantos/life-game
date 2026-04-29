@@ -39,10 +39,13 @@ return [
 
         'smtp' => [
             'transport' => 'smtp',
-            'scheme' => env('MAIL_SCHEME'),
+            // MAIL_SCHEME: use "tls" for STARTTLS (port 587) or "ssl" for implicit TLS (port 465).
+            // Leave null for unencrypted connections (not recommended for production).
+            // Also accepts MAIL_ENCRYPTION for compatibility with older configurations.
+            'scheme' => env('MAIL_SCHEME') ?? env('MAIL_ENCRYPTION'),
             'url' => env('MAIL_URL'),
             'host' => env('MAIL_HOST', '127.0.0.1'),
-            'port' => env('MAIL_PORT', 2525),
+            'port' => env('MAIL_PORT', 587),
             'username' => env('MAIL_USERNAME'),
             'password' => env('MAIL_PASSWORD'),
             'timeout' => null,
