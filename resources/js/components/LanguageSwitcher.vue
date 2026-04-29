@@ -27,7 +27,7 @@ function onSelect(value: string) {
     <Select :model-value="locale" @update:model-value="onSelect">
         <SelectTrigger
             :aria-label="t('language.label')"
-            :class="['h-8 w-auto gap-1.5 border-none bg-transparent px-2 py-1.5 text-sm shadow-none hover:bg-accent hover:text-accent-foreground focus:ring-0', $props.class]"
+            :class="['h-8 w-auto gap-1.5 border-none bg-transparent px-2 py-1.5 text-sm shadow-none hover:bg-accent hover:text-accent-foreground focus:ring-offset-0', $props.class]"
         >
             <SelectValue>
                 <span class="flex items-center gap-1.5">

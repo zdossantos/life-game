@@ -14,9 +14,9 @@ defineProps<Props>();
 
 <template>
     <img
-        src="/icon-512.png"
+        src="/icon-32.png"
         srcset="/icon-16.png 16w, /icon-32.png 32w, /icon-180.png 180w, /icon-512.png 512w"
-        sizes="(max-width: 32px) 16px, (max-width: 180px) 32px, 512px"
+        sizes="40px"
         alt="Life Game logo"
         :class="className"
         v-bind="$attrs"
