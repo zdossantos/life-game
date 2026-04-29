@@ -187,6 +187,17 @@ export default {
         surviveMin: 'Survie Min',
         surviveMax: 'Survie Max',
         birth: 'Naissance',
+        // panneau de contrôle
+        controls: 'Contrôles',
+        running: 'En cours',
+        actions: 'Actions',
+        appearance: 'Apparence',
+        color: 'Couleur des cellules',
+        gridSettings: 'Grille',
+        gridSizeLabel: 'Taille',
+        simSpeed: 'Vitesse',
+        speedLabel: 'Intervalle',
+        rules: 'Règles',
     },
 
     // ── Language switcher ─────────────────────────────────────────────
