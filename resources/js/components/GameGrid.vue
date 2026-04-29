@@ -86,7 +86,7 @@ onUnmounted(() => {
                 width: 'min(100%, 90vw, 90vh)',
                 height: 'min(100%, 90vw, 90vh)',
                 display: 'grid',
-                gridTemplateColumns: `repeat(${grid[0]?.length ?? 1}, 1fr)`,
+                gridTemplateColumns: `repeat(${grid.length}, 1fr)`,
                 gridTemplateRows: `repeat(${grid.length}, 1fr)`,
             }"
             @mouseup="stopDrawing"
