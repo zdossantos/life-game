@@ -26,9 +26,15 @@ function detectLocale(): SupportedLocale {
     return 'en';
 }
 
+const initialLocale = detectLocale();
+
+if (typeof window !== 'undefined') {
+    document.documentElement.lang = initialLocale;
+}
+
 export const i18n = createI18n<[MessageSchema], SupportedLocale>({
     legacy: false,
-    locale: detectLocale(),
+    locale: initialLocale,
     fallbackLocale: 'en',
     messages: { en, fr },
 });
