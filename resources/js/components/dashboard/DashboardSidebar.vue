@@ -5,7 +5,7 @@ import NavUser from '@/components/dashboard/NavUser.vue';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/vue3';
-import { BookOpen, Folder, LayoutGrid } from 'lucide-vue-next';
+import { Folder, LayoutGrid } from 'lucide-vue-next';
 import AppLogo from '../AppLogo.vue';
 import { useI18n } from 'vue-i18n';
 import { computed } from 'vue';
@@ -23,13 +23,8 @@ const mainNavItems = computed<NavItem[]>(() => [
 const footerNavItems = computed<NavItem[]>(() => [
     {
         title: t('nav.githubRepo'),
-        href: 'https://github.com/laravel/vue-starter-kit',
+        href: 'https://github.com/zdossantos/life-game',
         icon: Folder,
-    },
-    {
-        title: t('nav.documentation'),
-        href: 'https://laravel.com/docs/starter-kits',
-        icon: BookOpen,
     },
 ]);
 </script>

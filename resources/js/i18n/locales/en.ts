@@ -171,6 +171,7 @@ export default {
         dashboard: 'Dashboard',
         githubRepo: 'GitHub Repo',
         documentation: 'Documentation',
+        menu: 'Menu',
     },
 
     // ── Game controls / Home ──────────────────────────────────────────
