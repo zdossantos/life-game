@@ -17,6 +17,8 @@ export default {
         submit: 'Se connecter',
         noAccount: 'Vous n\'avez pas de compte ?',
         signUp: 'S\'inscrire',
+        passwordReset: 'Votre mot de passe a été réinitialisé.',
+        emailVerified: 'Votre adresse e-mail a été vérifiée.',
     },
 
     // ── Register ──────────────────────────────────────────────────────
@@ -41,6 +43,7 @@ export default {
         submit: 'Envoyer le lien de réinitialisation',
         returnTo: 'Ou, retourner à la',
         logIn: 'connexion',
+        statusSent: 'Un lien de réinitialisation sera envoyé si le compte existe.',
     },
 
     // ── Reset password ────────────────────────────────────────────────
@@ -51,6 +54,7 @@ export default {
         password: 'Mot de passe',
         confirmPassword: 'Confirmer le mot de passe',
         submit: 'Réinitialiser le mot de passe',
+        success: 'Votre mot de passe a été réinitialisé.',
     },
 
     // ── Confirm password ──────────────────────────────────────────────

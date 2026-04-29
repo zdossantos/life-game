@@ -35,7 +35,7 @@ const submit = () => {
         <Head :title="t('login.title')" />
 
         <div v-if="status" class="mb-4 text-center text-sm font-medium text-green-600">
-            {{ status }}
+            {{ t('login.passwordReset') }}
         </div>
 
         <form @submit.prevent="submit" class="flex flex-col gap-6">
