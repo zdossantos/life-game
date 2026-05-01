@@ -11,7 +11,7 @@ COPY package.json package-lock.json ./
 RUN npm ci
 COPY . .
 COPY --from=composer-builder /app/vendor ./vendor
-RUN npm run build
+RUN npm run build:ssr
 
 # ─── Stage 2: Production image (PHP-FPM + Nginx + Supervisor) ────────────────
 FROM php:8.3-fpm-alpine
@@ -47,7 +47,7 @@ COPY . .
 COPY --from=node-builder /app/public/build ./public/build
 
 RUN mkdir -p /var/www/html/bootstrap/cache /var/www/html/storage/logs \
-    && composer dump-autoload --optimize \
+    && composer dump-autoload --no-scripts --optimize \
     && chown -R www-data:www-data /var/www/html \
     && chmod -R 755 /var/www/html/storage /var/www/html/bootstrap/cache
 

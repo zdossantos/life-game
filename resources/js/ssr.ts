@@ -5,6 +5,11 @@ import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { createSSRApp, h, DefineComponent } from 'vue';
 import { route as ziggyRoute } from 'ziggy-js';
 import { SharedData } from '@/types';
+import { createI18n } from 'vue-i18n';
+import en from './i18n/locales/en';
+import fr from './i18n/locales/fr';
+
+type MessageSchema = typeof en;
 
 createServer((page) =>
     createInertiaApp({
@@ -34,7 +39,17 @@ createServer((page) =>
                 global.route = route;
             }
 
+            // i18n: use the locale detected server-side (from Accept-Language)
+            const locale = (page.props as SharedData).locale ?? 'en';
+            const i18n = createI18n<[MessageSchema], 'en' | 'fr'>({
+                legacy: false,
+                locale,
+                fallbackLocale: 'en',
+                messages: { en, fr },
+            });
+
             app.use(plugin);
+            app.use(i18n);
 
             return app;
         },

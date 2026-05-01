@@ -1,11 +1,15 @@
 {
     "$schema": "https://getcomposer.org/schema.json",
-    "name": "laravel/vue-starter-kit",
+    "name": "zdossantos/life-game",
     "type": "project",
-    "description": "The skeleton application for the Laravel framework.",
+    "description": "Life game",
     "keywords": [
-        "laravel",
-        "framework"
+        "life",
+        "game",
+        "conway",
+        "zdossantos",
+        "zacharie",
+        "dossantos"
     ],
     "license": "MIT",
     "require": {
