@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\SaveController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Response;
 
 Route::middleware('auth')->group(function () {
     Route::post('/', [SaveController::class, 'store'])->name('save.store');
@@ -10,6 +11,35 @@ Route::middleware('auth')->group(function () {
 Route::get('dashboard', function () {
     return SaveController::userSaves();
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+// Sitemap XML (avec annotations hreflang pour EN + FR)
+Route::get('/sitemap.xml', function () {
+    $baseUrl = config('app.url');
+    $urls = [
+        ['loc' => $baseUrl . '/'],
+    ];
+
+    $xml  = '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
+    $xml .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"' . "\n";
+    $xml .= '        xmlns:xhtml="http://www.w3.org/1999/xhtml">' . "\n";
+
+    foreach ($urls as $url) {
+        $loc    = $url['loc'];
+        $enLoc  = $loc . (str_contains($loc, '?') ? '&' : '?') . 'lang=en';
+        $frLoc  = $loc . (str_contains($loc, '?') ? '&' : '?') . 'lang=fr';
+        $xml .= '  <url>' . "\n";
+        $xml .= '    <loc>' . htmlspecialchars($loc, ENT_XML1) . '</loc>' . "\n";
+        $xml .= '    <xhtml:link rel="alternate" hreflang="en"        href="' . htmlspecialchars($enLoc, ENT_XML1) . '"/>' . "\n";
+        $xml .= '    <xhtml:link rel="alternate" hreflang="fr"        href="' . htmlspecialchars($frLoc, ENT_XML1) . '"/>' . "\n";
+        $xml .= '    <xhtml:link rel="alternate" hreflang="x-default" href="' . htmlspecialchars($loc, ENT_XML1) . '"/>' . "\n";
+        $xml .= '    <changefreq>weekly</changefreq>' . "\n";
+        $xml .= '    <priority>1.0</priority>' . "\n";
+        $xml .= '  </url>' . "\n";
+    }
+
+    $xml .= '</urlset>';
+    return Response::make($xml, 200, ['Content-Type' => 'application/xml']);
+})->name('sitemap');
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';

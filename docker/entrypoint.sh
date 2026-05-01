@@ -19,7 +19,8 @@ fi
 echo "Running migrations..."
 php artisan migrate --force --no-interaction
 
-# Cache configuration, views, and events for performance
+# Discover packages and cache configuration, views, and events for performance
+php artisan package:discover --ansi
 php artisan config:cache
 php artisan view:cache
 php artisan event:cache
