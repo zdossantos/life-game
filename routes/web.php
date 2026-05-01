@@ -24,12 +24,14 @@ Route::get('/sitemap.xml', function () {
     $xml .= '        xmlns:xhtml="http://www.w3.org/1999/xhtml">' . "\n";
 
     foreach ($urls as $url) {
-        $loc = $url['loc'];
+        $loc    = $url['loc'];
+        $enLoc  = $loc . (str_contains($loc, '?') ? '&' : '?') . 'lang=en';
+        $frLoc  = $loc . (str_contains($loc, '?') ? '&' : '?') . 'lang=fr';
         $xml .= '  <url>' . "\n";
-        $xml .= '    <loc>' . $loc . '</loc>' . "\n";
-        $xml .= '    <xhtml:link rel="alternate" hreflang="en"        href="' . $loc . '"/>' . "\n";
-        $xml .= '    <xhtml:link rel="alternate" hreflang="fr"        href="' . $loc . '"/>' . "\n";
-        $xml .= '    <xhtml:link rel="alternate" hreflang="x-default" href="' . $loc . '"/>' . "\n";
+        $xml .= '    <loc>' . htmlspecialchars($loc, ENT_XML1) . '</loc>' . "\n";
+        $xml .= '    <xhtml:link rel="alternate" hreflang="en"        href="' . htmlspecialchars($enLoc, ENT_XML1) . '"/>' . "\n";
+        $xml .= '    <xhtml:link rel="alternate" hreflang="fr"        href="' . htmlspecialchars($frLoc, ENT_XML1) . '"/>' . "\n";
+        $xml .= '    <xhtml:link rel="alternate" hreflang="x-default" href="' . htmlspecialchars($loc, ENT_XML1) . '"/>' . "\n";
         $xml .= '    <changefreq>weekly</changefreq>' . "\n";
         $xml .= '    <priority>1.0</priority>' . "\n";
         $xml .= '  </url>' . "\n";
@@ -38,19 +40,6 @@ Route::get('/sitemap.xml', function () {
     $xml .= '</urlset>';
     return Response::make($xml, 200, ['Content-Type' => 'application/xml']);
 })->name('sitemap');
-
-// Robots.txt dynamique (inclut l'URL du sitemap)
-Route::get('/robots.txt', function () {
-    $baseUrl = config('app.url');
-    $content = "User-agent: *\n";
-    $content .= "Allow: /\n";
-    $content .= "Disallow: /dashboard\n";
-    $content .= "Disallow: /settings\n";
-    $content .= "Disallow: /login\n";
-    $content .= "Disallow: /register\n\n";
-    $content .= "Sitemap: {$baseUrl}/sitemap.xml\n";
-    return Response::make($content, 200, ['Content-Type' => 'text/plain']);
-})->name('robots');
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';

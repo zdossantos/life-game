@@ -37,8 +37,10 @@ class DetectLocale
             }
         }
 
-        // 3. Fallback to app default
-        return config('app.locale', 'en');
+        // 3. Fallback to app default, but only if it is supported
+        $defaultLocale = config('app.locale', 'en');
+
+        return in_array($defaultLocale, self::SUPPORTED, true) ? $defaultLocale : 'en';
     }
 }
 

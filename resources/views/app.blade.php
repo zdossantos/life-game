@@ -55,8 +55,11 @@
         <link rel="sitemap" type="application/xml" title="Sitemap" href="{{ $baseUrl }}/sitemap.xml">
 
         {{-- hreflang: signal both EN and FR versions to Google --}}
-        <link rel="alternate" hreflang="en"        href="{{ $baseUrl }}{{ $currentPath }}">
-        <link rel="alternate" hreflang="fr"        href="{{ $baseUrl }}{{ $currentPath }}">
+        @php
+            $langSep = str_contains($currentPath, '?') ? '&' : '?';
+        @endphp
+        <link rel="alternate" hreflang="en"        href="{{ $baseUrl }}{{ $currentPath }}{{ $langSep }}lang=en">
+        <link rel="alternate" hreflang="fr"        href="{{ $baseUrl }}{{ $currentPath }}{{ $langSep }}lang=fr">
         <link rel="alternate" hreflang="x-default" href="{{ $baseUrl }}{{ $currentPath }}">
 
         {{-- Google Search Console verification --}}
@@ -98,8 +101,8 @@
             "@@context": "https://schema.org",
             "@@type": "WebApplication",
             "name": "Life Game",
-            "description": "{{ $meta['description'] }}",
-            "url": "{{ $baseUrl }}",
+            "description": {{ json_encode($meta['description']) }},
+            "url": {{ json_encode($baseUrl) }},
             "inLanguage": ["en", "fr"],
             "applicationCategory": "GameApplication",
             "operatingSystem": "Web",
@@ -108,7 +111,7 @@
                 "price": "0",
                 "priceCurrency": "EUR"
             },
-            "image": "{{ $baseUrl }}/icon-512.png"
+            "image": {{ json_encode($baseUrl . '/icon-512.png') }}
         }
         </script>
 

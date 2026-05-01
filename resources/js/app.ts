@@ -7,6 +7,7 @@ import { createApp, h } from 'vue';
 import { ZiggyVue } from 'ziggy-js';
 import { initializeTheme } from './composables/useAppearance';
 import { i18n } from './i18n';
+import type { SharedData } from './types';
 
 // Extend ImportMeta interface for Vite...
 declare module 'vite/client' {
@@ -34,6 +35,12 @@ createInertiaApp({
         });
     },
     setup({ el, App, props, plugin }) {
+        // Align client locale with the server-detected locale to avoid SSR hydration mismatches.
+        const serverLocale = (props.initialPage.props as SharedData).locale;
+        if (serverLocale) {
+            (i18n.global.locale as { value: 'en' | 'fr' }).value = serverLocale;
+        }
+
         createApp({ render: () => h(App, props) })
             .use(plugin)
             .use(ZiggyVue)
