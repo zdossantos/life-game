@@ -101,8 +101,8 @@
             "@@context": "https://schema.org",
             "@@type": "WebApplication",
             "name": "Life Game",
-            "description": {{ json_encode($meta['description']) }},
-            "url": {{ json_encode($baseUrl) }},
+            "description": {!! json_encode($meta['description'], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!},
+            "url": {!! json_encode($baseUrl, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!},
             "inLanguage": ["en", "fr"],
             "applicationCategory": "GameApplication",
             "operatingSystem": "Web",
@@ -111,7 +111,7 @@
                 "price": "0",
                 "priceCurrency": "EUR"
             },
-            "image": {{ json_encode($baseUrl . '/icon-512.png') }}
+            "image": {!! json_encode($baseUrl . '/icon-512.png', JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}
         }
         </script>
 
