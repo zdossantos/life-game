@@ -37,13 +37,13 @@
             $currentPath = request()->getPathInfo();
             $seoMeta  = [
                 'en' => [
-                    'description' => "Conway's Game of Life — interactive simulator. Create, save and share your life configurations.",
-                    'og_title'    => "Life Game — Conway's Game of Life",
-                    'og_desc'     => "Interactive simulator of Conway's Game of Life. Create, save and share your configurations.",
+                    'description' => "Conway Game of Life — interactive simulator. Create, save and share your life configurations.",
+                    'og_title'    => "Life Game — Conway Game of Life",
+                    'og_desc'     => "Interactive simulator of Conway Game of Life. Create, save and share your configurations.",
                 ],
                 'fr' => [
-                    'description' => "Jeu de la Vie de Conway — simulateur interactif. Créez, sauvegardez et partagez vos configurations.",
-                    'og_title'    => "Life Game — Jeu de la Vie de Conway",
+                    'description' => "Jeu de la Vie de Conway - simulateur interactif. Créez, sauvegardez et partagez vos configurations.",
+                    'og_title'    => "Life Game - Jeu de la Vie de Conway",
                     'og_desc'     => "Simulateur interactif du Jeu de la Vie de Conway. Créez, sauvegardez et partagez vos configurations.",
                 ],
             ];
