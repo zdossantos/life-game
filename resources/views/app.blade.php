@@ -95,8 +95,8 @@
         {{-- JSON-LD Structured Data --}}
         <script type="application/ld+json">
         {
-            "@context": "https://schema.org",
-            "@type": "WebApplication",
+            "@@context": "https://schema.org",
+            "@@type": "WebApplication",
             "name": "Life Game",
             "description": "{{ $meta['description'] }}",
             "url": "{{ $baseUrl }}",
@@ -104,7 +104,7 @@
             "applicationCategory": "GameApplication",
             "operatingSystem": "Web",
             "offers": {
-                "@type": "Offer",
+                "@@type": "Offer",
                 "price": "0",
                 "priceCurrency": "EUR"
             },
